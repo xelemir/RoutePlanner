@@ -31,7 +31,7 @@ from MapData import MapData
 
 if __name__ == "__main__":
     # To improve performance, set progressbar to False
-    data = MapData("germany.fmi", progressbar=True, timer=True)
+    data = MapData("germany.fmi", progressbar=False, timer=True)
     while True:
         
         # Enter coordinates in the format "lat, lon"

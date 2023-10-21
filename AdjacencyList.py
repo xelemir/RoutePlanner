@@ -27,13 +27,4 @@ class AdjacencyList:
 
 
 if __name__ == "__main__":
-    # Example usage:
-    num_nodes = 5
-    graph = AdjacencyList(num_nodes)
-
-    graph.add_edge(0, 1, 5)
-    graph.add_edge(0, 2, 3)
-    graph.add_edge(1, 3, 2)
-    graph.add_edge(2, 4, 1)
-
-    print(graph.neighbors(0))  # 5
+    pass
