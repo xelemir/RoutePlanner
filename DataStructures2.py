@@ -11,7 +11,7 @@ class DataStructures2:
     
     IMPORTANT:
     This class builds a true adjacency list,
-    instead of relying on an offset info and an array of edges like DataStructures1.
+    instead of relying on offset info and an array of edges like DataStructures1 does.
     However this is way more memory intensive. (~5.2 GB vs ~1.4 GB for germany.fmi)
     
     So while DataStructures1 is more memory efficient, it does in fact not build a true adjacency list.
