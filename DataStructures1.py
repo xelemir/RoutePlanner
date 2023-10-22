@@ -2,7 +2,7 @@ import time
 import numpy as np
 import tqdm
 
-class DataStructure1:
+class DataStructures1:
     def __init__(self, filepath, progressbar=False, timer=False):
         """ Creates the data structures from the given file path.
 
