@@ -53,13 +53,13 @@ class DataStructures2:
             amount_edges = int(file.readline())
             
             # TODO Currently the coordinates' significand SHOULD be 17 digits long, 8 Byte = 64 Bit, but np does something weird here
-            nodes_coordinates = np.zeros((amount_nodes, 3), dtype=np.float64)
+            nodes_coordinates = np.zeros((amount_nodes, 3), dtype=np.longdouble)
             adjacency_list = np.empty((amount_nodes, 2), dtype=object)
 
             # Read the nodes and edges into the arrays.
             for i in range(amount_nodes):
                 line = file.readline().split()
-                nodes_coordinates[i] = [line[0], line[2], line[3]]
+                nodes_coordinates[i] = [line[0], np.longdouble(line[2]), np.longdouble(line[3])]
                 adjacency_list[i][0] = int(line[0])
 
             # Iterate through the edges and add them to the array to temp_array as long as node_src is the same.
@@ -87,6 +87,6 @@ class DataStructures2:
             print(f"Elapsed: {str(time_end - time_start)} seconds.")
             
 if __name__ == "__main__":
-    data = DataStructures2("germany.fmi", timer=True)
+    data = DataStructures2("stuttgart.fmi", timer=True)
     while True:
         pass

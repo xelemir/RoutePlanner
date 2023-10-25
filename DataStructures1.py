@@ -22,14 +22,13 @@ class DataStructures1:
             amount_nodes = int(file.readline())
             amount_edges = int(file.readline())
             
-            # TODO Currently the coordinates' significand SHOULD be 17 digits long, 8 Byte = 64 Bit, but np does something weird here
-            node_array = np.zeros((amount_nodes, 4), dtype=np.float64)
+            node_array = np.zeros((amount_nodes, 4), dtype=np.longdouble)
             edge_array = np.zeros((amount_edges, 3), dtype=np.int32)
 
             # Read the nodes and edges into the arrays.
             for i in tqdm.tqdm(range(amount_nodes), disable=not progressbar, desc="1/3 Reading nodes"):
                 line = file.readline().split()
-                node_array[i] = [int(line[0]), float(line[2]), float(line[3]), 0]
+                node_array[i] = [int(line[0]), np.longdouble(line[2]), np.longdouble(line[3]), 0]
 
             for i in tqdm.tqdm(range(amount_edges), disable=not progressbar, desc="2/3 Reading edges"):
                 line = file.readline().split()
