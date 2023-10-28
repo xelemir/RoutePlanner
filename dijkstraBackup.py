@@ -23,7 +23,7 @@ def dijkstra_with_end_node(nodes, edges, start_node, end_node):
             break
         
         
-        for edge in edges[int(nodes[current_node][3]):int(nodes[current_node][3])+int(nodes[current_node][2])]:
+        for edge in edges[edges[:, 0] == current_node]:
             src, dest, weight = edge
             if src == current_node and not visited[dest]:
                 if distance[current_node] + weight < distance[dest]:
@@ -37,21 +37,3 @@ def dijkstra_with_end_node(nodes, edges, start_node, end_node):
         end_node = predecessors[end_node]
 
     return distance[path[-1]], path
-
-if __name__ == "__main__":
-    # Erstellen Sie ein Beispiel-Array von Kanten
-    ds = DataStructures1("stuttgart.fmi", progressbar=True)
-    edges = ds.get_edge_array()
-    nodes = ds.get_node_array()
-    #edges = np.array([[0, 1, 2], [0, 2, 4], [1, 2, 1], [1, 3, 7], [2, 3, 3]])
-
-
-    # Startknoten und Endknoten
-    start_node = int(ds.find_nearest_lat_lon(48.799678, 9.190228)[0])
-    end_node = int(ds.find_nearest_lat_lon(48.801691, 9.189995)[0])
-
-    shortest_distance, path = dijkstra_with_end_node(nodes, edges, start_node, end_node)
-    if np.isinf(shortest_distance):
-        print(f"Kein Pfad von Knoten {start_node} zu Knoten {end_node} gefunden.")
-    else:
-        print(f"Kürzester Weg von Knoten {start_node} zu Knoten {end_node} ist {shortest_distance}, Pfad: {path}")

@@ -1,0 +1,133 @@
+import numpy as np
+from DataStructures1 import DataStructures1
+from dijkstra import dijkstra_with_end_node
+import json
+
+
+import json
+import numpy as np
+from datetime import date, datetime, timedelta
+
+"""
+{
+ "type": "FeatureCollection",
+  "features": [
+  {"type": "Feature",        
+   "geometry": {
+    "type": "LineString",    
+     "coordinates": [        
+[9.2078866,48.8042223],      
+[9.2078786,48.8042273],      
+[9.2078607,48.8042386],      
+...
+[9.2053348,48.8077722],
+[9.2052865,48.807741],
+[9.2051908,48.8075756],
+[9.2050877,48.8074131],
+    [9.2051382,48.8073757]
+    ]},
+    "properties": {
+    }
+     },   {
+      "type": "Feature",
+       "geometry": {
+        "type": "Point",
+         "coordinates": [9.2078866,48.8042223]
+           },
+           "properties": {
+               "marker-symbol": "marker"
+           }
+   },   {
+      "type": "Feature",
+       "geometry": {
+        "type": "Point",
+         "coordinates": [9.2051382,48.8073757]
+           },
+           "properties": {
+               "marker-symbol": "square"
+           }
+       }   ]
+}
+"""
+
+class GeoJSON:
+    def __init__(self, path, nodes):
+        coordinates = []
+        for node in path:
+            coordinates.append([nodes[node][1], nodes[node][2]])
+            
+        geojson = {
+                "type": "FeatureCollection",
+                "features": [
+                {"type": "Feature",        
+                "geometry": {
+                    "type": "LineString",    
+                    "coordinates": coordinates
+                },
+                    "properties": {
+                    }
+                    },   {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [9.2078866,48.8042223]
+                        },
+                        "properties": {
+                            "marker-symbol": "marker"
+                        }
+                },   {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [9.2051382,48.8073757]
+                        },
+                        "properties": {
+                            "marker-symbol": "square"
+                        }
+                    }   ]
+                }
+        
+        with open("route.geojson", "w") as f:
+            json.dump(geojson, f, cls=NpEncoder)
+            
+class NpEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, np.bool_):
+            return bool(obj)
+        if isinstance(obj, (np.floating, np.complexfloating)):
+            return float(obj)
+        if isinstance(obj, np.integer):
+            return int(obj)
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        if isinstance(obj, np.string_):
+            return str(obj)
+        if isinstance(obj, (datetime, date)):
+            return obj.isoformat()
+        if isinstance(obj, timedelta):
+            return str(obj)
+        return super(NpEncoder, self).default(obj)
+    
+   
+if __name__ == "__main__":
+    # Erstellen Sie ein Beispiel-Array von Kanten
+    ds = DataStructures1("stuttgart.fmi", progressbar=True)
+    edges = ds.get_edge_array()
+    nodes = ds.get_node_array()
+
+
+    """# Startknoten und Endknoten
+    start_node = 0#373220#int(ds.find_nearest_lat_lon(48.799678, 9.190228)[0])
+    end_node = 3#373221#int(ds.find_nearest_lat_lon(48.801691, 9.189995)[0])
+
+    shortest_distance, path = dijkstra_with_end_node(nodes, edges, start_node, end_node)
+    if np.isinf(shortest_distance):
+        print(f"Kein Pfad von Knoten {start_node} zu Knoten {end_node} gefunden.")
+    else:
+        print(f"Kürzester Weg von Knoten {start_node} zu Knoten {end_node} ist {shortest_distance}, Pfad: {path}")"""
+        
+    path = [0, 1104366, 1104362, 676234, 1104356, 1104348, 126117, 1104336, 1104329, 1104324, 1104321, 126118, 1104318, 1104317, 763186, 1104315, 1104314, 1104311, 1104312, 1104313, 186843, 1104309, 1104306, 126119, 1104302, 1104300, 1104294, 126120, 1104287, 1104285, 800154, 186844, 1104281, 1104278, 1104277, 126121, 1104279, 1104280, 1104283, 1104284, 186845, 1104289, 2, 1104290, 1104291, 1104292, 126122, 128398, 186846, 126123, 186847, 3]
+        
+    geojson = GeoJSON(path, nodes)
+        
+    
