@@ -1,7 +1,7 @@
 import heapq
 import numpy as np
 
-from DataStructures1 import DataStructures1
+from DataStructures import DataStructures
 from tqdm import tqdm
 import numpy as np
 

@@ -2,7 +2,7 @@ import time
 import numpy as np
 import tqdm
 
-class DataStructures1:
+class DataStructures:
     def __init__(self, filepath, progressbar=False, timer=False):
         """ Creates the data structures from the given file path.
 
@@ -109,7 +109,7 @@ class DataStructures1:
         return self.edge_array
             
 if __name__ == "__main__":
-    ds = DataStructures1("toy.fmi")
+    ds = DataStructures("toy.fmi")
     edges = ds.get_edge_array()
     nodes = ds.get_node_array()
     print(nodes[3][3])

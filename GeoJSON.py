@@ -1,6 +1,6 @@
 import numpy as np
-from DataStructures1 import DataStructures1
-from dijkstra import dijkstra_with_end_node
+from DataStructures import DataStructures
+from dijkstra import dijkstra
 import json
 
 
@@ -89,8 +89,13 @@ class GeoJSON:
                     }   ]
                 }
         
-        with open("route.geojson", "w") as f:
-            json.dump(geojson, f)
+        self.geojson = json.dumps(geojson, cls=NpEncoder)
+   
+        #with open("route.geojson", "w") as f:
+        #    json.dump(geojson, f)
+    
+    def get_geojson(self):
+        return self.geojson
             
 class NpEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -113,7 +118,7 @@ class NpEncoder(json.JSONEncoder):
    
 if __name__ == "__main__":
     # Erstellen Sie ein Beispiel-Array von Kanten
-    ds = DataStructures1("stuttgart.fmi", progressbar=True)
+    ds = DataStructures("stuttgart.fmi", progressbar=True)
     edges = ds.get_edge_array()
     nodes = ds.get_node_array()
 
@@ -123,7 +128,7 @@ if __name__ == "__main__":
     start_node = int(ds.find_nearest_lat_lon(48.832696, 9.223443)[0])
     end_node = int(ds.find_nearest_lat_lon(48.825233, 9.228767)[0])
 
-    shortest_distance, path = dijkstra_with_end_node(nodes, edges, start_node, end_node)
+    shortest_distance, path = dijkstra(nodes, edges, start_node, end_node)
     if np.isinf(shortest_distance):
         print(f"Kein Pfad von Knoten {start_node} zu Knoten {end_node} gefunden.")
     else:

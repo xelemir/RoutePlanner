@@ -1,11 +1,11 @@
 
 import heapq
-from DataStructures1 import DataStructures1
+from DataStructures import DataStructures
 from tqdm import tqdm
 import numpy as np
 
 
-def dijkstra_with_end_node(nodes, edges, start_node, end_node):
+def dijkstra(nodes, edges, start_node, end_node):
     num_nodes = np.max(edges[:, :2]) + 1
     distance = np.full(num_nodes, np.inf)
     distance[start_node] = 0
@@ -40,7 +40,7 @@ def dijkstra_with_end_node(nodes, edges, start_node, end_node):
     return distance[path[-1]], path
 
 if __name__ == "__main__":
-    ds = DataStructures1("stuttgart.fmi", progressbar=True)
+    ds = DataStructures("stuttgart.fmi", progressbar=True)
     edges = ds.get_edge_array()
     nodes = ds.get_node_array()
 
@@ -48,7 +48,7 @@ if __name__ == "__main__":
     start_node = 0#373220#int(ds.find_nearest_lat_lon(48.799678, 9.190228)[0])
     end_node = 3#373221#int(ds.find_nearest_lat_lon(48.801691, 9.189995)[0])
 
-    shortest_distance, path = dijkstra_with_end_node(nodes, edges, start_node, end_node)
+    shortest_distance, path = dijkstra(nodes, edges, start_node, end_node)
     if np.isinf(shortest_distance):
         print(f"Kein Pfad von Knoten {start_node} zu Knoten {end_node} gefunden.")
     else:
