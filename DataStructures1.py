@@ -37,9 +37,12 @@ class DataStructures1:
             # Get the offset for each node as described in the specification to improve performance for Dijkstra's algorithm.
             for i in tqdm.tqdm(range(len(edge_array)), disable=not progressbar, desc="3/3 Calculating offsets"):
                 if i == 0:
-                    node_array[edge_array[i][0]][3] = i
-                elif edge_array[i][0] != edge_array[i-1][0]:
-                    node_array[edge_array[i][0]][3] = i
+                    node_array[edge_array[i][0]][3] = 0
+                else:
+                    if edge_array[i][0] != edge_array[i - 1][0]:
+                        node_array[edge_array[i][0]][3] = i
+                
+                    
 
         self.node_array = node_array
         self.sort_node_array_by_latitude()
@@ -106,4 +109,7 @@ class DataStructures1:
         return self.edge_array
             
 if __name__ == "__main__":
-    pass
+    ds = DataStructures1("toy.fmi")
+    edges = ds.get_edge_array()
+    nodes = ds.get_node_array()
+    print(nodes[3][3])
