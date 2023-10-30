@@ -22,25 +22,30 @@ class DataStructures:
             amount_nodes = int(file.readline())
             amount_edges = int(file.readline())
             
-            node_array = np.zeros((amount_nodes, 4), dtype=np.longdouble)
+            node_array = np.zeros((amount_nodes, 5), dtype=np.longdouble)
             edge_array = np.zeros((amount_edges, 3), dtype=np.int32)
 
             # Read the nodes and edges into the arrays.
             for i in tqdm.tqdm(range(amount_nodes), disable=not progressbar, desc="1/3 Reading nodes"):
                 line = file.readline().split()
-                node_array[i] = [int(line[0]), np.longdouble(line[2]), np.longdouble(line[3]), 0]
+                node_array[i] = [int(line[0]), np.longdouble(line[2]), np.longdouble(line[3]), 0, 0]
 
             for i in tqdm.tqdm(range(amount_edges), disable=not progressbar, desc="2/3 Reading edges"):
                 line = file.readline().split()
                 edge_array[i] = [line[0], line[1], line[2]]
             
-            # Get the offset for each node as described in the specification to improve performance for Dijkstra's algorithm.
+            # Get the offset for each node as described in the specification to improve performance for Dijkstra's algorithm aswell as the amount of edges for each node.
             for i in tqdm.tqdm(range(len(edge_array)), disable=not progressbar, desc="3/3 Calculating offsets"):
                 if i == 0:
                     node_array[edge_array[i][0]][3] = 0
+                    node_array[edge_array[i][0]][4] = 1
                 else:
                     if edge_array[i][0] != edge_array[i - 1][0]:
+                        node_array[edge_array[i - 1][0]][4] = i - node_array[edge_array[i - 1][0]][3]
                         node_array[edge_array[i][0]][3] = i
+                        node_array[edge_array[i][0]][4] = 1
+                    else:
+                        node_array[edge_array[i][0]][4] += 1
                 
                     
 
@@ -112,4 +117,4 @@ if __name__ == "__main__":
     ds = DataStructures("toy.fmi")
     edges = ds.get_edge_array()
     nodes = ds.get_node_array()
-    print(nodes[3][3])
+    print(nodes)

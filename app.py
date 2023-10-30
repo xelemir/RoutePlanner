@@ -1,11 +1,18 @@
 import json
 from flask import Flask, jsonify, render_template, request, redirect, url_for, flash, send_file
+import networkx as nx
 
 from DataStructures import DataStructures
 from GeoJSON import GeoJSON, NpEncoder
-from dijkstra import dijkstra
+from dijkstra import dijkstra_path
 app = Flask("Route Planner", template_folder='frontend')
 ds = DataStructures("stuttgart.fmi", progressbar=True, timer=True)
+
+edges = ds.get_edge_array()
+nodes = ds.get_node_array()
+
+G = nx.Graph()
+G.add_weighted_edges_from(edges)
 
 
 @app.route('/')
@@ -32,10 +39,8 @@ def route():
     if request.args.get('start') and request.args.get('end'):
         start = int(request.args.get('start'))
         end = int(request.args.get('end'))
-        
-        nodes = ds.get_node_array()
-        edges = ds.get_edge_array()
-        shortest_distance, path = dijkstra(nodes, edges, start, end)
+                
+        path = dijkstra_path(G, start, end)
         
         geojson = GeoJSON(path, nodes).get_geojson()
         
@@ -47,4 +52,4 @@ def route():
     
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)

@@ -1,6 +1,5 @@
 import numpy as np
 from DataStructures import DataStructures
-from dijkstra import dijkstra
 import json
 
 
@@ -128,13 +127,13 @@ if __name__ == "__main__":
     start_node = int(ds.find_nearest_lat_lon(48.832696, 9.223443)[0])
     end_node = int(ds.find_nearest_lat_lon(48.825233, 9.228767)[0])
 
-    shortest_distance, path = dijkstra(nodes, edges, start_node, end_node)
+    """shortest_distance, path = dijkstra(nodes, edges, start_node, end_node)
     if np.isinf(shortest_distance):
         print(f"Kein Pfad von Knoten {start_node} zu Knoten {end_node} gefunden.")
     else:
         print(f"Kürzester Weg von Knoten {start_node} zu Knoten {end_node} ist {shortest_distance}, Pfad: {path}")
         
         
-    geojson = GeoJSON(path, nodes)
+    geojson = GeoJSON(path, nodes)"""
         
     
