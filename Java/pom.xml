@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.gruettecloud.www</groupId>
+  <artifactId>routeplanner</artifactId>
+  <version>1.0.0</version>
+
+  <name>routeplanner</name>
+  <!-- Ändern Sie dies in die Website Ihres Projekts -->
+  <url>http://www.example.com</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.8</maven.compiler.source> <!-- Aktualisieren Sie auf Java 8 oder höher -->
+    <maven.compiler.target>1.8</maven.compiler.target> <!-- Aktualisieren Sie auf Java 8 oder höher -->
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.13.2</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jgrapht</groupId>
+      <artifactId>jgrapht-core</artifactId>
+      <version>1.5.2</version>
+    </dependency>
+    <dependency>
+      <groupId>io.javalin</groupId>
+      <artifactId>javalin</artifactId>
+      <version>5.6.3</version>
+  </dependency>
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-simple</artifactId>
+        <version>1.7.21</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.10.1</version>
+    </dependency>
+  
+
+  
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.5.9</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <pluginManagement><!-- Sperren Sie Plugin-Versionen, um Maven-Standards zu vermeiden (kann in ein übergeordnetes POM verschoben werden) -->
+      <plugins>
+        <!-- Maven Clean Plugin -->
+        <plugin>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>3.1.0</version>
+        </plugin>
+        <!-- Maven Resources Plugin -->
+        <plugin>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>3.2.0</version> <!-- Aktualisieren Sie auf eine neuere Version -->
+        </plugin>
+        <!-- Maven Compiler Plugin -->
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.8.1</version> <!-- Aktualisieren Sie auf eine neuere Version -->
+        </plugin>
+        <!-- Maven Surefire Plugin -->
+        <plugin>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.22.2</version> <!-- Aktualisieren Sie auf eine neuere Version -->
+        </plugin>
+        <!-- Maven JAR Plugin -->
+        <plugin>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>3.2.2</version> <!-- Aktualisieren Sie auf eine neuere Version -->
+        </plugin>
+        <!-- Maven Install Plugin -->
+        <plugin>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>2.5.2</version>
+        </plugin>
+        <!-- Maven Deploy Plugin -->
+        <plugin>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>2.8.2</version>
+        </plugin>
+        <!-- Maven Site Plugin -->
+        <plugin>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.9.1</version> <!-- Aktualisieren Sie auf eine neuere Version -->
+        </plugin>
+        <!-- Maven Project Info Reports Plugin -->
+        <plugin>
+          <artifactId>maven-project-info-reports-plugin</artifactId>
+          <version>3.1.1</version> <!-- Aktualisieren Sie auf eine neuere Version -->
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+</project>
