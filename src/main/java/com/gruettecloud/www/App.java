@@ -26,7 +26,7 @@ import io.javalin.http.staticfiles.Location;
 
 public class App {
     public static void main(String[] args) {
-        DataStructures dataStructures = new DataStructures("stuttgart.fmi", false);
+        DataStructures dataStructures = new DataStructures("germany.fmi", false);
         Dijkstra dijkstra = new Dijkstra(dataStructures);
 
         Javalin app = Javalin.create(config -> {
