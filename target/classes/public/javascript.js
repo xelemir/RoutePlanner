@@ -13,9 +13,6 @@ const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 
-/*const marker = L.marker([51.5, -0.09]).addTo(map)
-    .bindPopup('<b>Hello world!</b><br />I am a popup.').openPopup();*/
-
 function setMarker(lat, lng, role) {
     var marker = L.marker([lat, lng]).addTo(map).bindPopup('<b>' + role + '</b><br />' + lat.toFixed(6) + ", " + lng.toFixed(6)).openPopup();
 }
@@ -46,6 +43,10 @@ function restart() {
     document.getElementById("calculating-wheel").style.display = "none";
     document.getElementById("buttons").style.display = "none";
     document.getElementById("restartButton").style.display = "none";
+    document.getElementById("startNode").innerHTML = "-";
+    document.getElementById("endNode").innerHTML = "-";
+    document.getElementById("distance").innerHTML = "-";
+    document.getElementById("timer").innerHTML = "-";
 
     map.eachLayer(function (layer) {
         if (layer instanceof L.Marker) {
@@ -106,9 +107,11 @@ function getNearestNode(lat, lon) {
                 setCoordinates(lat, lon, node);
             },
             error: function(xhr, status, error) {
-                // Log or display the error message and status code
-                console.error('Error:', error);
-                console.error('Status Code:', xhr.status);
+                if (xhr.status == 400) {
+                    displayError(xhr, error, "No node in suitable distance found.");
+                } else {
+                    displayError(xhr, error, xhr.responseText);
+                }
             }
         });
     }
@@ -122,17 +125,31 @@ function route() {
             url: "/route?start=" + encodeURIComponent(start[2]) + "&end=" + encodeURIComponent(destination[2]),
             method: 'GET',
             success: function(response) {
-                // add geojson to map
-                var geojson = JSON.parse(response);
+
+                var json = JSON.parse(response);
+                var timeElapsed = json["timeElapsed"];
+                var start = json["startNode"];
+                var destination = json["endNode"];
+                var distance = json["distance"];
+                var geojson = json["geoJson"];
+
                 L.geoJSON(geojson).addTo(map);
+                console.log("Time elapsed: " + timeElapsed + "ms");
 
                 document.getElementById("calculating-wheel").style.display = "none";
                 document.getElementById("reset-button").style.display = "flex";
+                document.getElementById("startNode").innerHTML = start;
+                document.getElementById("endNode").innerHTML = destination;
+                document.getElementById("distance").innerHTML = distance;
+                document.getElementById("timer").innerHTML = timeElapsed + "ms";
             },
             error: function(xhr, status, error) {
-                // Log or display the error message and status code
-                console.error('Error:', error);
-                console.error('Status Code:', xhr.status);
+                if (xhr.status == 400) {
+                    restart();
+                    displayError(xhr, error, "No route found.");
+                } else {
+                    displayError(xhr, error, xhr.responseText);
+                }
             }
         });
     }
@@ -159,6 +176,29 @@ function toggleView() {
     }
 
 }
+
+function toggleDevViewContent() {
+    if (document.getElementById("devViewContent").style.display == "none") {
+        document.getElementById("devViewContent").style.display = "flex";
+        document.getElementById("toggleDevView").style.boxShadow = "none";
+    } else {
+        document.getElementById("devViewContent").style.display = "none";
+        document.getElementById("toggleDevView").style.boxShadow = "0 4px 10px rgba(0, 0, 0, 0.3)";
+    }
+}
+
+function displayError(xhr, error, message) {
+    var errorElement = document.getElementById("error");
+    var errorMessageElement = document.getElementById("errorMessage");
+
+    errorElement.style.display = "flex";
+    errorMessageElement.innerHTML = xhr.status + " " + error + "<br>" + message;
+
+    setTimeout(function() {
+        errorElement.style.display = "none"; // Hide the error message
+    }, 3000);
+}
+
 
 
 $(document).ready(function() {
@@ -214,8 +254,6 @@ $(document).ready(function() {
                         if (name == null) {
                             name = "Address";
                         }
-                            
-                        
 
                         var placeElement = document.createElement("div");
                         placeElement.innerHTML =  '<div onclick="getNearestNode(' + lat + ' ,' + lon + ')" style="cursor: pointer; width: 100%; display: flex; flex-direction: row; gap: 10px; margin: 10px 0;"><div style="display: flex; justify-content: left; align-items: center;"><span style="margin-right: 5px;" class="material-symbols-outlined align-icons-center">' + symbol + '</span><p>' + name + '</p></div><div style="display: flex; justify-content: right; align-items: center; flex: 1;">' + lat + ', ' + lon + '</div><div style="display: none; justify-content: right; align-items: center; flex: 1;"></div>'
@@ -223,6 +261,9 @@ $(document).ready(function() {
 
                     }
                 },
+                error: function(xhr, status, error) {
+                    displayError(xhr, error, xhr.responseText);
+                }
             });
         }, 1000); // Delay the search by 1 second
     } 

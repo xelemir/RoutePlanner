@@ -33,7 +33,7 @@ public class Dijkstra {
      * 
      * @param start the source node
      * @param end the target node
-     * @return the shortest path from the source node to the target node
+     * @return the shortest path from the source node to the target node. The last element is the distance.
      */
     public List<Integer> shortestPath(int start, int end) {
         int[] distances = new int[this.numNodes];
@@ -105,7 +105,9 @@ public class Dijkstra {
                 //System.out.println("Shortest distance from " + start + " to " + end + ": " + shortestDistance);
                 //System.out.println("Route: " + route);
             }
-    
+
+            // Add the distance to the end node to the route
+            route.add(shortestDistance);
             return route;
 
         } else {
@@ -115,7 +117,7 @@ public class Dijkstra {
                 this.start = start;
             }
             System.out.println("No path from start to end");
-            return new ArrayList<>(); // Return an empty list if the target node was not found
+            return null; // Return an empty list if the target node was not found
         }
     }
     
@@ -126,20 +128,16 @@ public class Dijkstra {
      * @param node the destination node
      * @return a List of integers representing the nodes in the shortest path, in order, with the distance as the last element
      */
-    public List<Integer> getAllRouteTo(int node) {
-        if (this.distances == null || this.previousNodes == null || this.start == 0) {
-            throw new IllegalStateException("Data not available. Please run dijkstra.shortestPath(start, -1) first.");
-        }
-
+    public List<Integer> getAllRouteTo(int node, int start, int[] distances, int[] previousNodes) {
         // return Route for specified node. Last index is the distance
         List<Integer> route = new ArrayList<>();
         int currentNode = node;
         while (currentNode != -1) {
             route.add(currentNode);
-            currentNode = this.previousNodes[currentNode];
+            currentNode = previousNodes[currentNode];
         }
         Collections.reverse(route);
-        route.add(this.distances[node]);
+        route.add(distances[node]);
         return route;
     }
     
@@ -184,7 +182,28 @@ public class Dijkstra {
             minHeap[(i - 1) / 2] = temp;
             i = (i - 1) / 2;
         }
-    }    
+    }
+
+    public int[] getDistances() {
+        if (this.distances == null) {
+            throw new IllegalStateException("Data not available. Please run dijkstra.shortestPath(start, -1) first.");
+        }
+        return this.distances;
+    }
+
+    public int[] getPreviousNodes() {
+        if (this.previousNodes == null) {
+            throw new IllegalStateException("Data not available. Please run dijkstra.shortestPath(start, -1) first.");
+        }
+        return this.previousNodes;
+    }
+
+    public int getStart() {
+        if (this.start == 0) {
+            throw new IllegalStateException("Data not available. Please run dijkstra.shortestPath(start, -1) first.");
+        }
+        return this.start;
+    }
 
     public static void main(String[] args) {
         DataStructures ds = new DataStructures("germany.fmi", false);
@@ -199,7 +218,9 @@ public class Dijkstra {
 
         double startTime = System.nanoTime();
         dijkstra.shortestPath(start, -1);
-        List<Integer> l = dijkstra.getAllRouteTo(3);
+        int[] distances = dijkstra.getDistances();
+        int[] previousNodes = dijkstra.getPreviousNodes();
+        List<Integer> l = dijkstra.getAllRouteTo(3, start, distances, previousNodes);
         double endTime = System.nanoTime();
         // to seconds
         System.out.println("Time: " + (endTime - startTime) / 1000000000.0);

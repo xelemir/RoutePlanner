@@ -30,6 +30,57 @@ import io.javalin.http.staticfiles.Location;
 public class App {
 
     /**
+     * Converts a route represented as a list of node indices to a GeoJSON string.
+     * 
+     * @param route the route represented as a list of node indices
+     * @param dataStructures the data structures object containing the nodes information
+     * @return the route represented as a GeoJSON string
+     */
+    public static String toGeoJson(List<Integer> route, DataStructures dataStructures) {
+        double[][] nodesCoordinates = dataStructures.getNodesOrderedByLatitude();
+        int[][] nodesWithOffset = dataStructures.getNodesWithOffset();
+        double[][] routeCoordinates = new double[route.size()-1][2];
+        route.remove(route.size() - 1);
+
+        for (int i = 0; i < route.size(); i++) {
+            int nodeIndex = route.get(i);
+            int nodeOffset = nodesWithOffset[nodeIndex][3];
+            double lat = nodesCoordinates[nodeOffset][1];
+            double lon = nodesCoordinates[nodeOffset][2];
+            routeCoordinates[i][1] = lat;
+            routeCoordinates[i][0] = lon;
+        }
+
+        // create GeoJSON by iterating over route
+        String geoJson = "{\n" +
+                "  \"type\": \"FeatureCollection\",\n" +
+                "  \"features\": [\n" +
+                "    {\n" +
+                "      \"type\": \"Feature\",\n" +
+                "      \"properties\": {},\n" +
+                "      \"geometry\": {\n" +
+                "        \"type\": \"LineString\",\n" +
+                "        \"coordinates\": [\n";
+        for (int i = 0; i < routeCoordinates.length; i++) {
+            geoJson += "          [\n" +
+                    "            " + routeCoordinates[i][0] + ",\n" +
+                    "            " + routeCoordinates[i][1] + "\n" +
+                    "          ]";
+            if (i < routeCoordinates.length - 1) {
+                geoJson += ",\n";
+            }
+        }
+        geoJson += "\n" +
+                "        ]\n" +
+                "      }\n" +
+                "    }\n" +
+                "  ]\n" +
+                "}";
+
+        return geoJson;
+    }
+
+    /**
      * The main method which starts the Javalin web server and handles HTTP requests.
      * 
      * @param args the command line arguments
@@ -48,8 +99,10 @@ public class App {
             config.plugins.enableDevLogging();
         }).start(7070);
 
-        // Javalin route for API which searches for a place using the Overpass API.
-        // Not part of specification, so please ignore.
+        /*
+         * Javalin route for API which searches for a place using the Overpass API.
+         * Not part of specification, so please ignore.
+         */
         app.get("/search_place", ctx -> {
             String query = ctx.queryParam("query");
             String[] queryParts = query.split(", ");
@@ -193,6 +246,11 @@ public class App {
             double lon = Double.parseDouble(ctx.queryParam("lon"));
             double[] nearestNode = dataStructures.getNearestNode(lat, lon, 0.01);
 
+            if (nearestNode == null) {
+                // Throw 400 Bad Request if no nodes are found within the tolerance range.
+                ctx.status(400);
+            }
+
             Gson gson = new Gson();
             JsonElement jsonElement = gson.toJsonTree(nearestNode);
             String json = gson.toJson(jsonElement);
@@ -203,49 +261,34 @@ public class App {
         app.get("/route", ctx -> {
             int start = Integer.parseInt(ctx.queryParam("start"));
             int end = Integer.parseInt(ctx.queryParam("end"));
+
             double startTime = System.currentTimeMillis();
+
             List<Integer> route = dijkstra.shortestPath(start, end);
-            double[][] nodesCoordinates = dataStructures.getNodesOrderedByLatitude();
-            int[][] nodesWithOffset = dataStructures.getNodesWithOffset();
-            double[][] routeCoordinates = new double[route.size()][2];
+
+            if (route == null) {
+                // Throw 400 Bad Request if no route is found.
+                ctx.status(400);
+            }
+
             double endTime = System.currentTimeMillis();
-            System.out.println("Time elapsed: " + (endTime - startTime) / 1000.0 + " seconds");
+            double timeElapsed = (endTime - startTime) / 1000.0;
+            System.out.println("Time elapsed: " + timeElapsed + " seconds.");
 
-            for (int i = 0; i < route.size(); i++) {
-                int nodeIndex = route.get(i);
-                int nodeOffset = nodesWithOffset[nodeIndex][3];
-                double lat = nodesCoordinates[nodeOffset][1];
-                double lon = nodesCoordinates[nodeOffset][2];
-                routeCoordinates[i][1] = lat;
-                routeCoordinates[i][0] = lon;
-            }
+            int distance = route.get(route.size() - 1);
+            route.remove(route.size() - 1);
 
-            // create GeoJSON by iterating over route
-            String geoJson = "{\n" +
-                    "  \"type\": \"FeatureCollection\",\n" +
-                    "  \"features\": [\n" +
-                    "    {\n" +
-                    "      \"type\": \"Feature\",\n" +
-                    "      \"properties\": {},\n" +
-                    "      \"geometry\": {\n" +
-                    "        \"type\": \"LineString\",\n" +
-                    "        \"coordinates\": [\n";
-            for (int i = 0; i < routeCoordinates.length; i++) {
-                geoJson += "          [\n" +
-                        "            " + routeCoordinates[i][0] + ",\n" +
-                        "            " + routeCoordinates[i][1] + "\n" +
-                        "          ]";
-                if (i < routeCoordinates.length - 1) {
-                    geoJson += ",\n";
-                }
-            }
-            geoJson += "\n" +
-                    "        ]\n" +
-                    "      }\n" +
-                    "    }\n" +
-                    "  ]\n" +
+            String geoJson = toGeoJson(route, dataStructures);
+
+            String timeAndGeoJson = "{\n" +
+                    "  \"startNode\": " + start + ",\n" +
+                    "  \"endNode\": " + end + ",\n" +
+                    "  \"distance\": " + distance + ",\n" +
+                    "  \"timeElapsed\": " + timeElapsed + ",\n" +
+                    "  \"geoJson\": " + geoJson + "\n" +
                     "}";
-            ctx.result(geoJson);
+
+            ctx.result(timeAndGeoJson);
         });
     }
 }
