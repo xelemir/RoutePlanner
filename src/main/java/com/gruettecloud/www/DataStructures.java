@@ -9,11 +9,17 @@ import java.util.Arrays;
  * DataStructures
  */
 public class DataStructures {
-
     private int[][] nodesWithOffset;
     private double[][] nodesOrderedByLatitude;
     private int[][] edges;
 
+    /**
+     * This class represents the data structures used in the RoutePlannerFMI application.
+     * It reads data from a file and stores it in arrays for later use in Dijkstra's algorithm.
+     * nodeWithOffset is a 2D array containing the node id, the offset, the amount of adjacent edges and the index where the coordinates of the node can be found in the nodesOrderedByLatitude array.
+     * nodesOrderedByLatitude is a 2D array containing the node id, the latitude and the longitude of the node.
+     * edges is a 2D array containing the source node id, the target node id and the distance between the two nodes.
+     */
     public DataStructures(String filePath, boolean timer) {
         long startTime = System.currentTimeMillis();
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
@@ -71,7 +77,10 @@ public class DataStructures {
         }
     }
         
-    public void sortNodeArrayByLatitude() {
+    /**
+     * Sorts the nodesOrderedByLatitude array by latitude and updates the corresponding index in nodesWithOffset.
+     */
+    private void sortNodeArrayByLatitude() {
         Arrays.sort(this.nodesOrderedByLatitude, (a, b) -> Double.compare(a[1], b[1]));
         for (int i = 0; i < this.nodesOrderedByLatitude.length; i++) {
             int nodeId = (int) this.nodesOrderedByLatitude[i][0];
@@ -79,6 +88,13 @@ public class DataStructures {
         }
     }
 
+    /**
+     * Returns the nearest node to the given target latitude and longitude within the specified tolerance range.
+     * @param targetLat the target latitude
+     * @param targetLon the target longitude
+     * @param tolerance the tolerance range for latitude and longitude. A tolerance of 0.01 seems to be useful.
+     * @return the nearest node as a double array, or null if no nodes are found within the tolerance range
+     */
     public double[] getNearestNode(double targetLat, double targetLon, double tolerance) {
         double[] nearestCombination = null;
         double[][] data = this.nodesOrderedByLatitude;
@@ -109,7 +125,7 @@ public class DataStructures {
         return nearestCombination;
     }
     
-
+    // Getters
     public double[][] getNodesOrderedByLatitude() {
         return this.nodesOrderedByLatitude;
     }
@@ -123,9 +139,7 @@ public class DataStructures {
     }
 
     public static void main(String[] args) {
-        // java -Xmx8g src/main/java/com/gruettecloud/www/Datastructures.java
         DataStructures ds = new DataStructures("germany.fmi", false);
-
         double[] node = ds.getNearestNode(48.832639, 9.223725, 0.01);
         System.out.println(Arrays.toString(node));
     }

@@ -1,8 +1,8 @@
 package com.gruettecloud.www;
 
-
 import java.util.List;
 import java.util.ArrayList;
+import java.net.URI;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -10,11 +10,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-
-
-
-import java.net.URI;
-
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -24,16 +19,37 @@ import com.google.gson.JsonObject;
 import io.javalin.Javalin;
 import io.javalin.http.staticfiles.Location;
 
+/**
+ * This class represents the main application for the RoutePlannerFMI project.
+ * It contains the main method which starts the Javalin web server and handles HTTP requests.
+ * The HTTP requests include searching for a place, finding the nearest node to a given location,
+ * and finding the shortest route between two nodes.
+ * The class also uses various external libraries such as Apache HttpComponents and Gson.
+ * The class is responsible for parsing the response from the Overpass API and returning the results as JSON.
+ */
 public class App {
+
+    /**
+     * The main method which starts the Javalin web server and handles HTTP requests.
+     * 
+     * @param args the command line arguments
+     */
     public static void main(String[] args) {
-        DataStructures dataStructures = new DataStructures("germany.fmi", false);
+        DataStructures dataStructures = new DataStructures("stuttgart.fmi", false);
         Dijkstra dijkstra = new Dijkstra(dataStructures);
 
+        
+        /*
+         * Javalin is a lightweight Java web framework.
+         * You can access the web server at http://localhost:7070
+         */
         Javalin app = Javalin.create(config -> {
             config.staticFiles.add("/public", Location.CLASSPATH);
             config.plugins.enableDevLogging();
         }).start(7070);
 
+        // Javalin route for API which searches for a place using the Overpass API.
+        // Not part of specification, so please ignore.
         app.get("/search_place", ctx -> {
             String query = ctx.queryParam("query");
             String[] queryParts = query.split(", ");
@@ -171,6 +187,7 @@ public class App {
             ctx.result(json);
         });
 
+        // Javalin route for API which finds the nearest node to a given location.
         app.get("/nearestNode", ctx -> {
             double lat = Double.parseDouble(ctx.queryParam("lat"));
             double lon = Double.parseDouble(ctx.queryParam("lon"));
@@ -182,26 +199,17 @@ public class App {
             ctx.result(json);
         });
 
+        // Javalin route for API which finds the shortest route between two nodes using Dijkstra's algorithm.
         app.get("/route", ctx -> {
             int start = Integer.parseInt(ctx.queryParam("start"));
             int end = Integer.parseInt(ctx.queryParam("end"));
+            double startTime = System.currentTimeMillis();
             List<Integer> route = dijkstra.shortestPath(start, end);
             double[][] nodesCoordinates = dataStructures.getNodesOrderedByLatitude();
             int[][] nodesWithOffset = dataStructures.getNodesWithOffset();
             double[][] routeCoordinates = new double[route.size()][2];
-
-            // TODO: This is very inefficient, add new datastructure that stores the coordinates and node with node_id as the index
-            /*for (int i = 0; i < route.size(); i++) {
-                for (int j = 0; j < nodes.length; j++) {
-                    if ((int) nodes[j][0] == route.get(i)) {
-                        double lat = nodes[j][2];
-                        double lon = nodes[j][1];
-                        routeCoordinates[i][0] = lat;
-                        routeCoordinates[i][1] = lon;
-                        break;
-                    }
-                }
-            }*/
+            double endTime = System.currentTimeMillis();
+            System.out.println("Time elapsed: " + (endTime - startTime) / 1000.0 + " seconds");
 
             for (int i = 0; i < route.size(); i++) {
                 int nodeIndex = route.get(i);
