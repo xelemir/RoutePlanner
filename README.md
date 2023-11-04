@@ -13,6 +13,8 @@
     You can check it out the UI at <a href="https://www.gruettecloud.com/maps">www.gruettecloud.com/maps</a>. However the backend is not running, as the server is not powerful enough to handle the large dataset required for the street network. So you can only see the UI, but not use it.
 </p>
 
+<h1 align="center">Images</h1>
+
 <p align="center">
     <img width="600px" src="https://www.gruettecloud.com/static/renders/RoutePlanner2.png" style="border-radius: 20px;" alt="FMI Maps">
 </p>
@@ -24,7 +26,6 @@
 TODO
 
 ## ✍️ Authors <a name = "authors"></a>
-
-- [@jan](https://github.com/xelemir)
 - [@Xiwen](https://github.com/Xiwen728)
 - [@Knut](https://github.com/KnutHer)
+- [@Jan](https://github.com/xelemir)
