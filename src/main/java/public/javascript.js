@@ -41,6 +41,7 @@ function restart() {
     document.getElementById("calculate-button").style.display = "flex";
     document.getElementById("reset-button").style.display = "none";
     document.getElementById("calculating-wheel").style.display = "none";
+    document.getElementById("noRouteFound").style.display = "none";
     document.getElementById("buttons").style.display = "none";
     document.getElementById("restartButton").style.display = "none";
     document.getElementById("startNode").innerHTML = "-";
@@ -83,6 +84,7 @@ function setCoordinates(lat, lon, node) {
         document.getElementById("destinationCoordinates").innerHTML = destination[0].toFixed(6) + ", " + destination[1].toFixed(6);
         document.getElementById("routeDecorator").style.display = "flex";
         document.getElementById("restartButton").style.display = "flex";
+        document.getElementById("endNode").innerHTML = node;
         setMarker(destination[0], destination[1], "Destination");
     } else {
         start = [lat, lon, node];
@@ -90,6 +92,7 @@ function setCoordinates(lat, lon, node) {
         document.getElementById("startCoordinates").style.display = "flex";
         document.getElementById("startCoordinates").innerHTML = start[0].toFixed(6) + ", " + start[1].toFixed(6);
         document.getElementById("buttons").style.display = "flex";
+        document.getElementById("startNode").innerHTML = node;
         setMarker(start[0], start[1], "Start"); 
     }
 }
@@ -145,8 +148,8 @@ function route() {
             },
             error: function(xhr, status, error) {
                 if (xhr.status == 400) {
-                    restart();
-                    displayError(xhr, error, "No route found.");
+                    document.getElementById("calculating-wheel").style.display = "none";
+                    document.getElementById("noRouteFound").style.display = "flex";
                 } else {
                     displayError(xhr, error, xhr.responseText);
                 }

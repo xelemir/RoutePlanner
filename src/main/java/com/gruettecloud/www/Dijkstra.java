@@ -206,7 +206,7 @@ public class Dijkstra {
     }
 
     public static void main(String[] args) {
-        DataStructures ds = new DataStructures("germany.fmi", false);
+        DataStructures ds = new DataStructures("germany.fmi");
         double[] startNode = ds.getNearestNode(48.825452, 9.226731, 0.01);
         double[] endNode = ds.getNearestNode(48.826732, 9.222793, 0.01);
         int start = (int) startNode[0];

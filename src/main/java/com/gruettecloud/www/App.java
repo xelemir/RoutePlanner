@@ -86,7 +86,7 @@ public class App {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        DataStructures dataStructures = new DataStructures("stuttgart.fmi", false);
+        DataStructures dataStructures = new DataStructures("germany.fmi");
         Dijkstra dijkstra = new Dijkstra(dataStructures);
 
         

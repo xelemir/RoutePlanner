@@ -20,7 +20,7 @@ public class DataStructures {
      * nodesOrderedByLatitude is a 2D array containing the node id, the latitude and the longitude of the node.
      * edges is a 2D array containing the source node id, the target node id and the distance between the two nodes.
      */
-    public DataStructures(String filePath, boolean timer) {
+    public DataStructures(String filePath) {
         long startTime = System.currentTimeMillis();
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             for (int i = 0; i < 5; i++) {
@@ -139,7 +139,7 @@ public class DataStructures {
     }
 
     public static void main(String[] args) {
-        DataStructures ds = new DataStructures("germany.fmi", false);
+        DataStructures ds = new DataStructures("germany.fmi");
         double[] node = ds.getNearestNode(48.832639, 9.223725, 0.01);
         System.out.println(Arrays.toString(node));
     }
