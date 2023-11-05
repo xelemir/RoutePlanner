@@ -114,17 +114,11 @@ public class App {
                     queryParts[0]
                 );
             } else if (queryParts.length == 2) {
-                // try cast to double to check if it's coordinates
-                try {
-                    double lat = Double.parseDouble(queryParts[0]);
-                    double lon = Double.parseDouble(queryParts[1]);
-                } catch (Exception e) {
-                    overpassQuery = String.format(
-                    "[out:json];\n(\nway[\"addr:street\"=\"%s\"][\"addr:housenumber\"=\"%s\"];\nway[\"addr:street\"=\"%s\"][\"addr:housenumber\"=\"%s\"];\nway[\"addr:street\"=\"%s\"][\"addr:city\"=\"%s\"];\nway[\"addr:street\"=\"%s\"][\"addr:city\"=\"%s\"];\nway[\"addr:street\"=\"%s\"][\"addr:postcode\"=\"%s\"];\nway[\"addr:street\"=\"%s\"][\"addr:postcode\"=\"%s\"];\n);\nout center;",
-                    queryParts[0], queryParts[1], queryParts[1], queryParts[0], queryParts[0], queryParts[1],
-                    queryParts[1], queryParts[0], queryParts[0], queryParts[1], queryParts[1], queryParts[0]
-                    );
-                }
+                overpassQuery = String.format(
+                "[out:json];\n(\nway[\"addr:street\"=\"%s\"][\"addr:housenumber\"=\"%s\"];\nway[\"addr:street\"=\"%s\"][\"addr:housenumber\"=\"%s\"];\nway[\"addr:street\"=\"%s\"][\"addr:city\"=\"%s\"];\nway[\"addr:street\"=\"%s\"][\"addr:city\"=\"%s\"];\nway[\"addr:street\"=\"%s\"][\"addr:postcode\"=\"%s\"];\nway[\"addr:street\"=\"%s\"][\"addr:postcode\"=\"%s\"];\n);\nout center;",
+                queryParts[0], queryParts[1], queryParts[1], queryParts[0], queryParts[0], queryParts[1],
+                queryParts[1], queryParts[0], queryParts[0], queryParts[1], queryParts[1], queryParts[0]
+                );
 
             } else if (queryParts.length == 3) {
                 overpassQuery = String.format(

@@ -21,8 +21,6 @@ function setMarker(lat, lng, role) {
 function onMapClick(e) {
     if (destination[0] == null || start[0] == null) {
         getNearestNode(e.latlng.lat, e.latlng.lng);
-    } else {
-        restart();
     }
 }
 
@@ -64,10 +62,6 @@ function restart() {
     document.getElementById("searchBar").value = "";
     document.getElementById("searchResults").style.display = "none";
     document.getElementById("close-search").style.display = "none";
-}
-
-function calculateRoute() {
-    route();
 }
 
 function setCoordinates(lat, lon, node) {
@@ -120,7 +114,7 @@ function getNearestNode(lat, lon) {
     }
 }
 
-function route() {
+function calculateRoute() {
     if (start[0] != null && destination[0] != null) {
         document.getElementById("calculate-button").style.display = "none";
         document.getElementById("calculating-wheel").style.display = "flex";
@@ -235,6 +229,7 @@ $(document).ready(function() {
 
                     if (response.length == 0) {
                         searchResults.append("No results found.");
+                        return;
                     }
                 
                     for (var i = 0; i < response.length; i++) {
@@ -274,6 +269,11 @@ $(document).ready(function() {
     // Trigger the search when the input field changes
     $('#searchBar').on('input', function() {
         if (this.value == "") {
+            return;
+        } else if (this.value.includes(",") && this.value.split(",").length == 2 && !isNaN(this.value.split(",")[0]) && !isNaN(this.value.split(",")[1])) {
+            var lat = this.value.split(",")[0];
+            var lon = this.value.split(",")[1];
+            getNearestNode(lat, lon);
             return;
         }
         clearTimeout(debounceTimer); // Clear any existing timer
