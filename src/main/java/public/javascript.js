@@ -199,7 +199,7 @@ function displayError(xhr, error, message) {
 
     setTimeout(function() {
         errorElement.style.display = "none"; // Hide the error message
-    }, 3000);
+    }, 4000);
 }
 
 

@@ -39,8 +39,7 @@ public class App {
     public static String toGeoJson(List<Integer> route, DataStructures dataStructures) {
         double[][] nodesCoordinates = dataStructures.getNodesOrderedByLatitude();
         int[][] nodesWithOffset = dataStructures.getNodesWithOffset();
-        double[][] routeCoordinates = new double[route.size()-1][2];
-        route.remove(route.size() - 1);
+        double[][] routeCoordinates = new double[route.size()][2];
 
         for (int i = 0; i < route.size(); i++) {
             int nodeIndex = route.get(i);
@@ -76,7 +75,6 @@ public class App {
                 "    }\n" +
                 "  ]\n" +
                 "}";
-
         return geoJson;
     }
 
@@ -116,11 +114,18 @@ public class App {
                     queryParts[0]
                 );
             } else if (queryParts.length == 2) {
-                overpassQuery = String.format(
+                // try cast to double to check if it's coordinates
+                try {
+                    double lat = Double.parseDouble(queryParts[0]);
+                    double lon = Double.parseDouble(queryParts[1]);
+                } catch (Exception e) {
+                    overpassQuery = String.format(
                     "[out:json];\n(\nway[\"addr:street\"=\"%s\"][\"addr:housenumber\"=\"%s\"];\nway[\"addr:street\"=\"%s\"][\"addr:housenumber\"=\"%s\"];\nway[\"addr:street\"=\"%s\"][\"addr:city\"=\"%s\"];\nway[\"addr:street\"=\"%s\"][\"addr:city\"=\"%s\"];\nway[\"addr:street\"=\"%s\"][\"addr:postcode\"=\"%s\"];\nway[\"addr:street\"=\"%s\"][\"addr:postcode\"=\"%s\"];\n);\nout center;",
                     queryParts[0], queryParts[1], queryParts[1], queryParts[0], queryParts[0], queryParts[1],
                     queryParts[1], queryParts[0], queryParts[0], queryParts[1], queryParts[1], queryParts[0]
-                );
+                    );
+                }
+
             } else if (queryParts.length == 3) {
                 overpassQuery = String.format(
                     "[out:json];\n(\nway[\"addr:street\"=\"%s\"][\"addr:housenumber\"=\"%s\"][\"addr:postcode\"=\"%s\"];\n" +
@@ -238,6 +243,7 @@ public class App {
             JsonElement jsonElement = gson.toJsonTree(results);
             String json = gson.toJson(jsonElement);
             ctx.result(json);
+            return;
         });
 
         // Javalin route for API which finds the nearest node to a given location.
@@ -249,12 +255,14 @@ public class App {
             if (nearestNode == null) {
                 // Throw 400 Bad Request if no nodes are found within the tolerance range.
                 ctx.status(400);
+                return;
             }
 
             Gson gson = new Gson();
             JsonElement jsonElement = gson.toJsonTree(nearestNode);
             String json = gson.toJson(jsonElement);
             ctx.result(json);
+            return;
         });
 
         // Javalin route for API which finds the shortest route between two nodes using Dijkstra's algorithm.
@@ -263,12 +271,12 @@ public class App {
             int end = Integer.parseInt(ctx.queryParam("end"));
 
             double startTime = System.currentTimeMillis();
-
             List<Integer> route = dijkstra.shortestPath(start, end);
 
             if (route == null) {
                 // Throw 400 Bad Request if no route is found.
                 ctx.status(400);
+                return;
             }
 
             double endTime = System.currentTimeMillis();
@@ -289,6 +297,7 @@ public class App {
                     "}";
 
             ctx.result(timeAndGeoJson);
+            return;
         });
     }
 }

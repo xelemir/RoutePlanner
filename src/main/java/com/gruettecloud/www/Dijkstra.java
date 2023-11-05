@@ -100,10 +100,8 @@ public class Dijkstra {
             // The shortest distance from 'start' to 'end' is in distances[end]
             int shortestDistance = distances[end];
             if (shortestDistance == Integer.MAX_VALUE) {
-                System.out.println("No path from start to end");
-            } else {
-                //System.out.println("Shortest distance from " + start + " to " + end + ": " + shortestDistance);
-                //System.out.println("Route: " + route);
+                System.out.println("No path from start to end. Target node is unreachable.");
+                return null;
             }
 
             // Add the distance to the end node to the route
@@ -116,7 +114,7 @@ public class Dijkstra {
                 this.previousNodes = previousNodes;
                 this.start = start;
             }
-            System.out.println("No path from start to end");
+            System.out.println("No path from start to end. Target node not found.");
             return null; // Return an empty list if the target node was not found
         }
     }
@@ -206,27 +204,20 @@ public class Dijkstra {
     }
 
     public static void main(String[] args) {
-        DataStructures ds = new DataStructures("germany.fmi");
-        double[] startNode = ds.getNearestNode(48.825452, 9.226731, 0.01);
-        double[] endNode = ds.getNearestNode(48.826732, 9.222793, 0.01);
+        DataStructures ds = new DataStructures("stuttgart.fmi");
+        double[] startNode = ds.getNearestNode(48.831853, 9.185623, 0.01);
+        double[] endNode = ds.getNearestNode(48.823065, 8.887945, 0.01);
         int start = (int) startNode[0];
         int end = (int) endNode[0];
 
         Dijkstra dijkstra = new Dijkstra(ds);
-
-        // One to one Dijkstra
-
-        double startTime = System.nanoTime();
-        dijkstra.shortestPath(start, -1);
-        int[] distances = dijkstra.getDistances();
-        int[] previousNodes = dijkstra.getPreviousNodes();
-        List<Integer> l = dijkstra.getAllRouteTo(3, start, distances, previousNodes);
-        double endTime = System.nanoTime();
-        // to seconds
-        System.out.println("Time: " + (endTime - startTime) / 1000000000.0);
-
-        // One to all Dijkstra
-        //dijkstra.shortestPath(start, -1);
+        List<Integer> l = dijkstra.shortestPath(start, end);
+        System.out.println(l);
+        if (l == null) {
+            System.out.println("No route found.");
+            // Throw 400 Bad Request if no route is found.
+        }
+        
         
     }
 }
