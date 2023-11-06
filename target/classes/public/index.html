@@ -61,7 +61,7 @@
         .code {
             max-height: calc(90svh - 20px);
             height: auto;
-            border-radius: 20px;
+            border-radius: 10px;
         }
     
         @media (max-width: 768px) {
@@ -134,14 +134,19 @@
             <div class="dynamic-container">
                 <div class="box text" style="text-wrap: balance;">
                     <h1>Search Places.</h1>
-                    <p style="color: #000000">Click the map to set the <span class="material-symbols-outlined align-icons-center">location_on</span> Destination
-                        and <span class="material-symbols-outlined align-icons-center">directions_car</span> Startpoint.<br>
-                        Or select any place in Germany, even home addresses, using the <span style="background-color: var(--primary-color); color: #FFFFFF; padding: 4px; border-radius: 50%; font-size: 0.8em; height: 18px; margin-right: 5px;">
-                            <span class="material-symbols-outlined align-icons-center">search</span>
-                        </span> search bar.<br>
-                        We will try to match Your query with publicly available data from OpenStreetMap.<br>
-                        As a bonus, You can use <span style="background-color: var(--primary-color); color: #FFFFFF; padding: 4px 10px; border-radius: 30px; font-size: 0.8em;">My Location</span> as a starting point.
+                    <p style="color: #000000; text-wrap: balance;">
+                        Click the map to set the 
+                        <span class="material-symbols-outlined align-icons-center" style="line-height: 1; vertical-align: middle;">location_on</span>
+                        Destination and 
+                        <span class="material-symbols-outlined align-icons-center" style="line-height: 1; vertical-align: middle;">directions_car</span>
+                        Startpoint. Or select any place in Germany, even home addresses, using the 
+                        <span style="background-color: var(--primary-color); color: #FFFFFF; padding: 4px; border-radius: 50%; font-size: 0.8em; height: 18px; margin-right: 5px;">
+                            <span class="material-symbols-outlined align-icons-center" style="line-height: 1; vertical-align: middle;">search</span>
+                        </span> search bar. We will try to match Your query with publicly available data from OpenStreetMap. As a bonus, You can use 
+                        <span style="background-color: var(--primary-color); color: #FFFFFF; padding: 4px 10px; border-radius: 30px; font-size: 0.8em;">My Location</span> as a starting point.
                     </p>
+                    
+                    
                 </div>
                 <div class="box">
                     <img class="mac product-renders" src="https://www.gruettecloud.com/static/renders/routeplanner/addressLight.png" alt="FMI Maps">
@@ -164,18 +169,14 @@
 
         <div class="section" data-anchor="section5">
             <div class="dynamic-container">
-                <div class="box text" style="text-wrap: balance; padding: 100px;">
+                <div class="box text" style="text-wrap: balance; padding: 35px;">
                     <h1>Behind The Map</h1>
-                    <p style="color: #FFFFFF">We use Javalin, a Java web framework, to serve the frontend and the API endpoints.
-                        Route calculation is done by a custom implementation of the Dijkstra algorithm.
-                        Data is provided by the <a href="https://fmi.uni-stuttgart.de/alg/research/stuff/" style="color: #FFFFFF; text-decoration: none;">Institute for Formal Methods in Computer Science</a> at the University of Stuttgart.
-                        The calculated routes are displayed using GeoJSON and the <a href="https://leafletjs.com/" style="color: #FFFFFF; text-decoration: none;">Leaflet</a> JavaScript library.
+                    <p style="color: #FFFFFF; font-size: 1.2em;">
+                        FMI Maps, a University of Stuttgart course project, leverages Javalin, a Java web framework, to serve both the frontend and API endpoints.
+                        Custom Dijkstra algorithm implementation handles route calculation, with data sourced from the University of Stuttgart's Institute for Formal Methods in Computer Science.
+                        Routes are visualized using GeoJSON and the Leaflet JavaScript library. FMI Maps was a collaborative effort involving:
                     </p>
-                    <p style="color: #FFFFFF">FMI Maps is a course project at the University of Stuttgart.
-                        It is neither affiliated with the University of Stuttgart nor their Institute for Formal Methods in Computer Science.
-                        FMI Maps was developed in collaboration between:
-                    </p>
-                    <div style="display: flex; justify-content: space-evenly; width: 100%; margin-top: 100px;">
+                    <div style="display: flex; justify-content: space-evenly; width: 100%; margin-top: 70px;">
                         <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
                             <img src="https://www.gruettecloud.com/static/profile_pictures/purple.png" alt="Xiwen" style="height: 100px; width: 100px; border-radius: 50%;">
                             <h2 style="color: var(--white-color);">Xiwen Feng</h2>
