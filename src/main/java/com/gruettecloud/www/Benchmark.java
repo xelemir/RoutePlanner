@@ -62,7 +62,13 @@ public class Benchmark {
 
 		// ask user for a target node id
 		System.out.print("Enter target node id... ");
-		int targetNodeId = (new Scanner(System.in)).nextInt();
+		int targetNodeId = -1;
+		try (Scanner scanner = new Scanner(System.in)) {
+			targetNodeId = scanner.nextInt();
+		} catch (Exception e) {
+			System.out.println("Exception...");
+			e.printStackTrace();
+		}
 		int oneToAllDistance = -42;
 			int[] distance = dijNavigate.getDistances();
 			int[] prevNode = dijNavigate.getPreviousNodes();
@@ -70,5 +76,4 @@ public class Benchmark {
 			oneToAllDistance = routeAll.get(routeAll.size()-1);
 		System.out.println("Distance from " + sourceNodeId + " to " + targetNodeId + " is " + oneToAllDistance);
 	}
-
 }

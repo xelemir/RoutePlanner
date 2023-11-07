@@ -211,9 +211,17 @@ public class Dijkstra {
 
     public static void main(String[] args) {
         DataStructures ds = new DataStructures("stuttgart.fmi");
+
+        
+        Dijkstra dijkstra = new Dijkstra(ds);
+
+
         double[] startNode = ds.getNearestNode(48.831853, 9.185623, 0.01);
         double[] endNode = ds.getNearestNode(48.823065, 8.887945, 0.01);
-        int start = (int) startNode[0];
+        System.out.println(startNode[0]);
+        System.out.println(endNode[0]);
+
+        /*int start = (int) startNode[0];
         int end = (int) endNode[0];
 
         Dijkstra dijkstra = new Dijkstra(ds);
@@ -222,7 +230,7 @@ public class Dijkstra {
         if (l == null) {
             System.out.println("No route found.");
             // Throw 400 Bad Request if no route is found.
-        }
+        }*/
 
     }
 }

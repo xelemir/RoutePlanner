@@ -44,12 +44,10 @@ Routes are visualized using GeoJSON and the Leaflet JavaScript library.
 
 ## 📷 Images <a name = "images"></a>
 
-<p align="center">
-    <img width="600px" src="https://www.gruettecloud.com/static/renders/routeplanner/addressLight.png" style="border-radius: 20px;" alt="FMI Maps">
-</p>
-<p align="center">
-    <img width="600px" src="https://www.gruettecloud.com/static/renders/routeplanner/routeDark.png" style="border-radius: 20px;" alt="FMI Maps">
-</p>
+<div align="center">
+    <img width="49%" src="https://www.gruettecloud.com/static/renders/routeplanner/routeDark.png" style="border-radius: 20px;" alt="FMI Maps">
+    <img width="49%" src="https://www.gruettecloud.com/static/renders/routeplanner/addressLight.png" style="border-radius: 20px;" alt="FMI Maps">
+</div>
 
 ## 🔧 Configuration <a name = "configuration"></a>
 TODO
