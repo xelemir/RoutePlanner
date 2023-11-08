@@ -70,9 +70,7 @@ public class Benchmark {
 			e.printStackTrace();
 		}
 		int oneToAllDistance = -42;
-			int[] distance = dijNavigate.getDistances();
-			int[] prevNode = dijNavigate.getPreviousNodes();
-			List<Integer> routeAll = dijNavigate.getAllRouteTo(targetNodeId, oneToAllDistance, distance, prevNode);
+			List<Integer> routeAll = dijNavigate.getAllRouteTo(targetNodeId);
 			oneToAllDistance = routeAll.get(routeAll.size()-1);
 		System.out.println("Distance from " + sourceNodeId + " to " + targetNodeId + " is " + oneToAllDistance);
 	}

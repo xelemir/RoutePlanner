@@ -128,8 +128,14 @@ public class Dijkstra {
      * @return a List of integers representing the nodes in the shortest path, in
      *         order, with the distance as the last element
      */
-    public List<Integer> getAllRouteTo(int node, int start, int[] distances, int[] previousNodes) {
+    public List<Integer> getAllRouteTo(int node) {
         // return Route for specified node. Last index is the distance
+        if (this.distances == null || this.previousNodes == null || this.start == 0) {
+            throw new IllegalStateException("Data not available. Please run dijkstra.shortestPath(start, -1) first.");
+        }
+        int[] distances = this.distances;
+        int[] previousNodes = this.previousNodes;
+        int start = this.start;
         List<Integer> route = new ArrayList<>();
         int currentNode = node;
         while (currentNode != -1) {
@@ -186,27 +192,6 @@ public class Dijkstra {
             minHeap[(i - 1) / 2] = temp;
             i = (i - 1) / 2;
         }
-    }
-
-    public int[] getDistances() {
-        if (this.distances == null) {
-            throw new IllegalStateException("Data not available. Please run dijkstra.shortestPath(start, -1) first.");
-        }
-        return this.distances;
-    }
-
-    public int[] getPreviousNodes() {
-        if (this.previousNodes == null) {
-            throw new IllegalStateException("Data not available. Please run dijkstra.shortestPath(start, -1) first.");
-        }
-        return this.previousNodes;
-    }
-
-    public int getStart() {
-        if (this.start == 0) {
-            throw new IllegalStateException("Data not available. Please run dijkstra.shortestPath(start, -1) first.");
-        }
-        return this.start;
     }
 
     public static void main(String[] args) {
