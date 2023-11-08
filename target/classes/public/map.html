@@ -92,7 +92,7 @@
         <div onclick="toggleView()" style="cursor: pointer; font-size: 1em; width: 62px; height: 50px; margin: 0; border-radius: 50%; background-color: var(--background-color); color: var(--text-color); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); display: flex; justify-content: center; align-items: center;">
             <span class="material-symbols-outlined align-icons-center">menu</span>
         </div>
-        <input id="searchBar" type="text" class="login-input" autocomplete="off" placeholder="Search FMI Maps" style="width: 100%; font-size: 1em; height: 50px; margin: 0; border-radius: 30px; padding-left: 20px; padding-right: 50px; background-color: var(--background-color); color: var(--text-color); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);" required>
+        <input id="search-bar" type="text" class="login-input" autocomplete="off" placeholder="Search FMI Maps" style="width: 100%; font-size: 1em; height: 50px; margin: 0; border-radius: 30px; padding-left: 20px; padding-right: 50px; background-color: var(--background-color); color: var(--text-color); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);" required>
         <div style="z-index: 1; position: absolute; margin-top: 5px; right: 5px; display: flex; background-color: var(--primary-color); height: 40px; width: 40px; border-radius: 50%; justify-content: center; align-items: center; cursor: pointer;">
             <span class="material-symbols-outlined align-icons-center" style="color: var(--white-color);">search</span>
         </div>
@@ -101,15 +101,15 @@
         </div>
     </div>
 
-    <div id="searchResults" style="margin-bottom: 10px; background-color: var(--background-color); border-radius: 30px; padding: 10px 20px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); display: none; flex-direction: column; justify-content: space-between;"></div>
+    <div id="search-results" style="margin-bottom: 10px; background-color: var(--background-color); border-radius: 30px; padding: 10px 20px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); display: none; flex-direction: column; justify-content: space-between;"></div>
 
     
-    <div class="animate__animated animate__jackInTheBox"  id="toggleView" style="display: none; background-color: var(--background-color); max-height: 80svh; border-radius: 30px; padding: 20px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); flex-direction: column; justify-content: space-between;">
+    <div class="animate__animated animate__jackInTheBox"  id="toggle-view" style="display: none; background-color: var(--background-color); max-height: 80svh; border-radius: 30px; padding: 20px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); flex-direction: column; justify-content: space-between;">
         <h1>FMI Maps</h1>
         <div style="background-color: transparent; border: none; cursor: pointer; position: absolute; margin-top: 5px; left: 20px; display: flex; color: var(--text-color);">
             <span id="darkModeToggle" class="material-symbols-outlined white-button-blue-on-hover align-icons-center" title="Darkmode">dark_mode</span>
         </div>
-        <button id="restartButton" onclick="restart()" style="background-color: transparent; border: none; cursor: pointer; position: absolute; margin-top: 5px; right: 20px; display: none; color: var(--text-color);">
+        <button id="restart-button" onclick="restart()" style="background-color: transparent; border: none; cursor: pointer; position: absolute; margin-top: 5px; right: 20px; display: none; color: var(--text-color);">
             <span class="material-symbols-outlined align-icons-center">close</span>
         </button>
         <hr style="border: 1px solid var(--box-shadow-color); border-radius: 5px; margin: 20px 0px; margin-top: 10px;">
@@ -119,16 +119,16 @@
                     <span style="margin-right: 5px;" class="material-symbols-outlined align-icons-center">directions_car</span>
                     <p>Start</p>
                 </div>
-                <div id="startHint" style="display: flex; justify-content: right; align-items: center; flex: 1; flex-direction: row;">
+                <div id="start-hint" style="display: flex; justify-content: right; align-items: center; flex: 1; flex-direction: row;">
                     Click on map or
                     <button onclick="requestLocation()" style="background-color: var(--primary-color); color: var(--white-color); border-radius: 30px; padding: 2px 10px; border: none; cursor: pointer; margin: 0px 5px;">
                         My Location
                     </button>
                 </div>
-                <div id="startCoordinates" style="display: none; justify-content: right; align-items: center; flex: 1;">
+                <div id="start-coordinates" style="display: none; justify-content: right; align-items: center; flex: 1;">
                 </div>
             </div>
-            <div id="routeDecorator" style="display: none; justify-content: left; align-items: center;">
+            <div id="route-decorator" style="display: none; justify-content: left; align-items: center;">
                 <span style="margin: 10px 0; margin-right: 5px;" class="material-symbols-outlined align-icons-center">more_vert</span>
             </div>
             <div id="destination" style="width: 100%; display: flex; flex-direction: row; gap: 10px;">
@@ -136,17 +136,17 @@
                     <span style="margin-right: 5px;" class="material-symbols-outlined align-icons-center">location_on</span>
                     <p>Destination</p>
                 </div>
-                <div id="destinationHint" style="display: flex; justify-content: right; align-items: center; flex: 1;">
+                <div id="destination-hint" style="display: flex; justify-content: right; align-items: center; flex: 1;">
                     Click on the map
                 </div>
-                <div id="destinationCoordinates" style="display: none; justify-content: right; align-items: center; flex: 1;">
+                <div id="destination-coordinates" style="display: none; justify-content: right; align-items: center; flex: 1;">
                 </div>
             </div>
             <div id="buttons" style="display: none; justify-content: left; align-items: center; margin-top: 20px;">
                 <button id="calculate-button" onclick="calculateRoute()" style="background-color: var(--primary-color); color: var(--white-color); border-radius: 30px; padding: 2px 10px; border: none; cursor: pointer; display: flex; justify-content: center; align-items: center; flex: 1; height: 40px;">
                     <span style="margin-right: 5px; color: var(--white-color);" class="material-symbols-outlined align-icons-center">directions</span> Get Directions
                 </button>
-                <div id="noRouteFound" style="display: none; justify-content: center; align-items: center; flex: 1; height: 40px;">
+                <div id="no-route-found" style="display: none; justify-content: center; align-items: center; flex: 1; height: 40px;">
                     <span style="margin-right: 5px; color: var(--red);" class="material-symbols-outlined align-icons-center">warning</span>
                     <p style="color: var(--red);">No Route Found</p>
                 </div>
@@ -163,11 +163,11 @@
 </div>
 <div class="dev-view" style="position: absolute; z-index: 2; right: 0px; align-items: flex-end; flex-direction: column;">
     <div style="display: flex; gap: 10px; margin-bottom: 10px; position: absolute;">
-        <div id="toggleDevView" onclick="toggleDevViewContent()" style="cursor: pointer; font-size: 1em; width: 50px; height: 50px; margin: 0; border-radius: 50%; background-color: var(--background-color); color: var(--text-color); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); display: flex; justify-content: center; align-items: center;">
+        <div id="toggle-dev-view" onclick="toggleDevViewContent()" style="cursor: pointer; font-size: 1em; width: 50px; height: 50px; margin: 0; border-radius: 50%; background-color: var(--background-color); color: var(--text-color); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); display: flex; justify-content: center; align-items: center;">
             <span class="material-symbols-outlined align-icons-center">query_stats</span>
         </div>
     </div>
-    <div id="devViewContent" style="display: none; width: 350px; gap: 15px; background-color: var(--background-color); max-height: 80svh; border-radius: 30px; padding: 20px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); flex-direction: column; justify-content: space-between;">
+    <div id="dev-view-content" style="display: none; width: 350px; gap: 15px; background-color: var(--background-color); max-height: 80svh; border-radius: 30px; padding: 20px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); flex-direction: column; justify-content: space-between;">
         <h1>DevView</h1>
         <hr style="border: 1px solid var(--box-shadow-color); border-radius: 5px; margin-top: -10px;">
         <div style="width: 100%; display: flex; flex-direction: row; gap: 10px;">
@@ -175,14 +175,14 @@
                 <span style="margin-right: 5px;" class="material-symbols-outlined align-icons-center">start</span>
                 <p>Start Node</p>
             </div>
-            <div id="startNode" style="display: flex; justify-content: right; align-items: center; flex: 1;">-</div>
+            <div id="start-node" style="display: flex; justify-content: right; align-items: center; flex: 1;">-</div>
         </div>
         <div style="width: 100%; display: flex; flex-direction: row; gap: 10px;">
             <div style="display: flex; justify-content: left; align-items: center;">
                 <span style="margin-right: 5px;" class="material-symbols-outlined align-icons-center">flag</span>
                 <p>End Node</p>
             </div>
-            <div id="endNode" style="display: flex; justify-content: right; align-items: center; flex: 1;">-</div>
+            <div id="end-node" style="display: flex; justify-content: right; align-items: center; flex: 1;">-</div>
         </div>
         <div style="width: 100%; display: flex; flex-direction: row; gap: 10px;">
             <div style="display: flex; justify-content: left; align-items: center;">
@@ -202,7 +202,7 @@
 </div>
 <div id="error" class="error-message animate__animated animate__fadeIn" style="display: none;">
     <h2 style="margin-bottom: 30px;">Error</h2>
-    <p id="errorMessage"></p>
+    <p id="error-message"></p>
 </div>
 
 <div id="map" style="width: 100vw; height: 100svh; z-index: 1;"></div>

@@ -31,19 +31,19 @@ function restart() {
     destination = [null, null, null];
     
     document.getElementById("start").style.display = "none";
-    document.getElementById("startHint").style.display = "flex";
-    document.getElementById("startCoordinates").style.display = "none";
-    document.getElementById("destinationHint").style.display = "flex";
-    document.getElementById("destinationCoordinates").style.display = "none";
-    document.getElementById("routeDecorator").style.display = "none";
+    document.getElementById("start-hint").style.display = "flex";
+    document.getElementById("start-coordinates").style.display = "none";
+    document.getElementById("destination-hint").style.display = "flex";
+    document.getElementById("destination-coordinates").style.display = "none";
+    document.getElementById("route-decorator").style.display = "none";
     document.getElementById("calculate-button").style.display = "flex";
     document.getElementById("reset-button").style.display = "none";
     document.getElementById("calculating-wheel").style.display = "none";
-    document.getElementById("noRouteFound").style.display = "none";
+    document.getElementById("no-route-found").style.display = "none";
     document.getElementById("buttons").style.display = "none";
-    document.getElementById("restartButton").style.display = "none";
-    document.getElementById("startNode").innerHTML = "-";
-    document.getElementById("endNode").innerHTML = "-";
+    document.getElementById("restart-button").style.display = "none";
+    document.getElementById("start-node").innerHTML = "-";
+    document.getElementById("end-node").innerHTML = "-";
     document.getElementById("distance").innerHTML = "-";
     document.getElementById("timer").innerHTML = "-";
 
@@ -59,34 +59,34 @@ function restart() {
         }
     });
 
-    document.getElementById("searchBar").value = "";
-    document.getElementById("searchResults").style.display = "none";
+    document.getElementById("search-bar").value = "";
+    document.getElementById("search-results").style.display = "none";
     document.getElementById("close-search").style.display = "none";
 }
 
 function setCoordinates(lat, lon, node) {
-    document.getElementById("searchBar").value = "";
+    document.getElementById("search-bar").value = "";
     document.getElementById("close-search").style.display = "none";
-    document.getElementById("searchResults").style.display = "none";
-    document.getElementById("toggleView").style.display = "flex";
+    document.getElementById("search-results").style.display = "none";
+    document.getElementById("toggle-view").style.display = "flex";
 
     if (destination[0] == null) {
         destination = [lat, lon, node];
         document.getElementById("start").style.display = "flex";
-        document.getElementById("destinationHint").style.display = "none";
-        document.getElementById("destinationCoordinates").style.display = "flex";
-        document.getElementById("destinationCoordinates").innerHTML = destination[0].toFixed(6) + ", " + destination[1].toFixed(6);
-        document.getElementById("routeDecorator").style.display = "flex";
-        document.getElementById("restartButton").style.display = "flex";
-        document.getElementById("endNode").innerHTML = node;
+        document.getElementById("destination-hint").style.display = "none";
+        document.getElementById("destination-coordinates").style.display = "flex";
+        document.getElementById("destination-coordinates").innerHTML = destination[0].toFixed(6) + ", " + destination[1].toFixed(6);
+        document.getElementById("route-decorator").style.display = "flex";
+        document.getElementById("restart-button").style.display = "flex";
+        document.getElementById("end-node").innerHTML = node;
         setMarker(destination[0], destination[1], "Destination");
     } else {
         start = [lat, lon, node];
-        document.getElementById("startHint").style.display = "none";
-        document.getElementById("startCoordinates").style.display = "flex";
-        document.getElementById("startCoordinates").innerHTML = start[0].toFixed(6) + ", " + start[1].toFixed(6);
+        document.getElementById("start-hint").style.display = "none";
+        document.getElementById("start-coordinates").style.display = "flex";
+        document.getElementById("start-coordinates").innerHTML = start[0].toFixed(6) + ", " + start[1].toFixed(6);
         document.getElementById("buttons").style.display = "flex";
-        document.getElementById("startNode").innerHTML = node;
+        document.getElementById("start-node").innerHTML = node;
         setMarker(start[0], start[1], "Start"); 
     }
 }
@@ -135,15 +135,15 @@ function calculateRoute() {
 
                 document.getElementById("calculating-wheel").style.display = "none";
                 document.getElementById("reset-button").style.display = "flex";
-                document.getElementById("startNode").innerHTML = start;
-                document.getElementById("endNode").innerHTML = destination;
+                document.getElementById("start-node").innerHTML = start;
+                document.getElementById("end-node").innerHTML = destination;
                 document.getElementById("distance").innerHTML = distance;
                 document.getElementById("timer").innerHTML = timeElapsed + "ms";
             },
             error: function(xhr, status, error) {
                 if (xhr.status == 400) {
                     document.getElementById("calculating-wheel").style.display = "none";
-                    document.getElementById("noRouteFound").style.display = "flex";
+                    document.getElementById("no-route-found").style.display = "flex";
                 } else {
                     displayError(xhr, error, xhr.responseText);
                 }
@@ -156,7 +156,7 @@ function requestLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(useUserLocation);
     } else { 
-        document.getElementById("startHint").innerHTML = "Not supported!<br>Please click on the map.";
+        document.getElementById("start-hint").innerHTML = "Not supported!<br>Please click on the map.";
     }
 }
 
@@ -165,7 +165,7 @@ function useUserLocation(position) {
 }
 
 function toggleView() {
-    var toggleView = document.getElementById("toggleView");
+    var toggleView = document.getElementById("toggle-view");
     if (toggleView.style.display == "none") {
         toggleView.style.display = "flex";
     } else {
@@ -175,38 +175,35 @@ function toggleView() {
 }
 
 function toggleDevViewContent() {
-    if (document.getElementById("devViewContent").style.display == "none") {
-        document.getElementById("devViewContent").style.display = "flex";
-        document.getElementById("toggleDevView").style.boxShadow = "none";
+    if (document.getElementById("dev-view-content").style.display == "none") {
+        document.getElementById("dev-view-content").style.display = "flex";
+        document.getElementById("toggle-dev-view").style.boxShadow = "none";
     } else {
-        document.getElementById("devViewContent").style.display = "none";
-        document.getElementById("toggleDevView").style.boxShadow = "0 4px 10px rgba(0, 0, 0, 0.3)";
+        document.getElementById("dev-view-content").style.display = "none";
+        document.getElementById("toggle-dev-view").style.boxShadow = "0 4px 10px rgba(0, 0, 0, 0.3)";
     }
 }
 
 function displayError(xhr, error, message) {
     var errorElement = document.getElementById("error");
-    var errorMessageElement = document.getElementById("errorMessage");
+    var errorMessageElement = document.getElementById("error-message");
 
     errorElement.style.display = "flex";
     errorMessageElement.innerHTML = xhr.status + " " + error + "<br>" + message;
 
     setTimeout(function() {
-        errorElement.style.display = "none"; // Hide the error message
+        errorElement.style.display = "none";
     }, 4000);
 }
 
 
 
 $(document).ready(function() {
-    // Define a variable to hold the timer ID
     let debounceTimer;
 
-    // Function to send AJAX request and update results
     function updateSearchResults() {
-        var inputSearchBar = $('#searchBar').val();
-        var inputElement = $('#searchBar');
-        var searchResults = $('#searchResults');
+        var inputSearchBar = $('#search-bar').val();
+        var searchResults = $('#search-results');
         var closeSearch = $('#close-search');
         if (inputSearchBar == "") {
             return;
@@ -215,11 +212,8 @@ $(document).ready(function() {
         searchResults.html("Searching...");
         closeSearch.css("display", "flex");
 
-        // Clear any existing timer
         clearTimeout(debounceTimer);
-        /// Set a new timer to trigger the search after 1000ms (1 second)
         debounceTimer = setTimeout(function() {
-            // Continue with the AJAX request and other code
             $.ajax({
                 url: "/search_place?query=" + encodeURIComponent(inputSearchBar),
                 type: 'GET',
@@ -263,11 +257,10 @@ $(document).ready(function() {
                     displayError(xhr, error, xhr.responseText);
                 }
             });
-        }, 1000); // Delay the search by 1 second
+        }, 1000);
     } 
 
-    // Trigger the search when the input field changes
-    $('#searchBar').on('input', function() {
+    $('#search-bar').on('input', function() {
         if (this.value == "") {
             return;
         } else if (this.value.includes(",") && this.value.split(",").length == 2 && !isNaN(this.value.split(",")[0]) && !isNaN(this.value.split(",")[1])) {
@@ -276,7 +269,7 @@ $(document).ready(function() {
             getNearestNode(lat, lon);
             return;
         }
-        clearTimeout(debounceTimer); // Clear any existing timer
-        debounceTimer = setTimeout(updateSearchResults, 1000); // Set a new timer to trigger the search
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(updateSearchResults, 1000);
     });
 }); 
