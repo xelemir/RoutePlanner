@@ -139,6 +139,8 @@ function calculateRoute() {
                 document.getElementById("end-node").innerHTML = destination;
                 document.getElementById("distance").innerHTML = distance;
                 document.getElementById("timer").innerHTML = timeElapsed + "ms";
+
+                map.fitBounds(L.geoJSON(geojson).getBounds());
             },
             error: function(xhr, status, error) {
                 if (xhr.status == 400) {
