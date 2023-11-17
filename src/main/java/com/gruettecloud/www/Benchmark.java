@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.util.List;
 import java.util.Scanner;
 
+
 public class Benchmark {
 
 	public static void main(String[] args) {
@@ -18,20 +19,18 @@ public class Benchmark {
 		// run benchmarks
 		System.out.println("Reading graph file and creating graph data structure (" + graphPath + ")");
 		long graphReadStart = System.currentTimeMillis();
-			DataStructures graph = new DataStructures(graphPath);
+		DataStructures graph = new DataStructures(graphPath);
 		long graphReadEnd = System.currentTimeMillis();
 		System.out.println("\tgraph read took " + (graphReadEnd - graphReadStart) + "ms");
 
-	
 		System.out.println("Setting up closest node data structure...");
-		// #TODO: set up closest node data structure here
+		// Already done in DataStructures.java
 
-		System.out.println("Finding closest node to coordinates " + lon + " " + lat);
+		System.out.println("Finding closest node to coordinates " + lat + " " + lon);
 		long nodeFindStart = System.currentTimeMillis();
-		double[] coords = {0.0, 0.0};
-			graph.getNearestNode(lat, lon, 0.01);
+		double[] nearestNode = graph.getNearestNode(lat, lon, 0.01);
 		long nodeFindEnd = System.currentTimeMillis();
-		System.out.println("\tfinding node took " + (nodeFindEnd - nodeFindStart) + "ms: " + coords[0] + ", " + coords[1]);
+		System.out.println("\tfinding node took " + (nodeFindEnd - nodeFindStart) + "ms: " + (int) nearestNode[0] + " (" + nearestNode[1] + " " + nearestNode[2] + ")");
 
 		Dijkstra dijNavigate = new Dijkstra(graph);
 
@@ -56,7 +55,7 @@ public class Benchmark {
 
 		System.out.println("Computing one-to-all Dijkstra from node id " + sourceNodeId);
 		long oneToAllStart = System.currentTimeMillis();
-			dijNavigate.shortestPath(sourceNodeId, -1);
+		dijNavigate.shortestPath(sourceNodeId, -1);
 		long oneToAllEnd = System.currentTimeMillis();
 		System.out.println("\tone-to-all Dijkstra took " + (oneToAllEnd - oneToAllStart) + "ms");
 

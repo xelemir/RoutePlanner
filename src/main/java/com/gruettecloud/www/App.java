@@ -87,7 +87,6 @@ public class App {
         DataStructures dataStructures = new DataStructures("germany.fmi");
         Dijkstra dijkstra = new Dijkstra(dataStructures);
 
-        
         /*
          * Javalin is a lightweight Java web framework.
          * You can access the web server at http://localhost:7070
@@ -277,6 +276,7 @@ public class App {
             double timeElapsed = (endTime - startTime) / 1000.0;
             System.out.println("Time elapsed: " + timeElapsed + " seconds.");
 
+            // last element in route is the distance
             int distance = route.get(route.size() - 1);
             route.remove(route.size() - 1);
 

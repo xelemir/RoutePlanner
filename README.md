@@ -34,8 +34,8 @@ Routes are visualized using GeoJSON and the Leaflet JavaScript library. You can 
 - <u>One-to-All Dijkstra</u>
   - You can also calculate the shortest path from a single node to all other nodes.
   - This however can only be done via the API. The frontend does not support this feature.
-  - Please use the Method `shortestPath(int start, int end)` with the arguments `startNodeID` and `-1` within the `Dijkstra` class. The -1 endNodeID will make sure that the algorithm will calculate the shortest path to all other nodes.
-  - After the calculation, please use the `getDistances()` method tand the `getPreviousNodes()` method to get the distances and predecessors of all nodes. Now you can use the `getAllRouteTo(int node, int start, int[] distances, int[] previousNodes)` method to get the shortest path from the start node to any point you desire with the distances and predecessors you just calculated.
+  - Please use the Method `shortestPath(int start, int end)` with the arguments `startNode` and `-1` within the `Dijkstra` class. The -1 endNodeID will make sure that the algorithm will calculate the shortest path to all other nodes.
+  - Now you can use the `getAllRouteTo(int EndNode)` method to get the shortest path from the start node to any point you desire with the distances and predecessors you just calculated.
 
 - <u>Dark Mode</u>
   - Most importantly, we added a hacky looking dark mode to the website.
@@ -50,7 +50,15 @@ Routes are visualized using GeoJSON and the Leaflet JavaScript library. You can 
 </div>
 
 ## 🔧 Configuration <a name = "configuration"></a>
-TODO
+To execute the project as required by the course, you need to do the following:
+- Install Java with Maven.
+- Clone the repository.
+- Download the graph data (germany.fmi.bz2) from the [FMI](https://fmi.uni-stuttgart.de/alg/research/stuff/) and the benchmark data from [here]( https://fmi.uni-stuttgart.de/files/alg/data/graphs/Benchs.tar.bz2).
+- Place the extracted files (germany.fmi, germany.que and germany.sol) in the root directory of the project.
+- cd into the project directory.
+- Run `mvn compile`.
+- Run the benchmark with `mvn exec:java -Dexec.mainClass="com.gruettecloud.www.Benchmark" -Dexec.args="-graph germany.fmi -lon 9.098 -lat 48.746 -que germany.que -s 638394 -Xmx6g"`.
+- If you'd like to use the GUI, run `mvn exec:java -Dexec.mainClass="com.gruettecloud.www.App" -Dexec.args="-Xmx6g"`. The web app will be available at http://localhost:7070/.
 
 ## ✍️ Authors <a name = "authors"></a>
 - [@Xiwen](https://github.com/Xiwen728)

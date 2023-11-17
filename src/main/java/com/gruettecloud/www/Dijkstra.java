@@ -195,27 +195,19 @@ public class Dijkstra {
     }
 
     public static void main(String[] args) {
-        DataStructures ds = new DataStructures("stuttgart.fmi");
+        DataStructures ds = new DataStructures("germany.fmi");
+        Dijkstra dijkstra = new Dijkstra(ds);
 
+
+        int startNode = 480860;
+        int endNode = 480861;
+        int thirdNode = 480862;
+        // 146
+        // 382
         
-        Dijkstra dijkstra = new Dijkstra(ds);
+        List<Integer> route = dijkstra.shortestPath(8371825, 16743651);
 
-
-        double[] startNode = ds.getNearestNode(48.831853, 9.185623, 0.01);
-        double[] endNode = ds.getNearestNode(48.823065, 8.887945, 0.01);
-        System.out.println(startNode[0]);
-        System.out.println(endNode[0]);
-
-        /*int start = (int) startNode[0];
-        int end = (int) endNode[0];
-
-        Dijkstra dijkstra = new Dijkstra(ds);
-        List<Integer> l = dijkstra.shortestPath(start, end);
-        System.out.println(l);
-        if (l == null) {
-            System.out.println("No route found.");
-            // Throw 400 Bad Request if no route is found.
-        }*/
+        System.out.println(route.get(route.size() - 1));
 
     }
 }
