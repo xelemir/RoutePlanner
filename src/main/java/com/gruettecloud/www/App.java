@@ -84,7 +84,7 @@ public class App {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        DataStructures dataStructures = new DataStructures("germany.fmi");
+        DataStructures dataStructures = new DataStructures("stuttgart.fmi");
         Dijkstra dijkstra = new Dijkstra(dataStructures);
 
         /*
@@ -102,141 +102,44 @@ public class App {
          */
         app.get("/search_place", ctx -> {
             String query = ctx.queryParam("query");
-            String[] queryParts = query.split(", ");
-            String responseBody = null;
-
-            String overpassQuery = null;
-
-            if (queryParts.length == 1) {
-                overpassQuery = String.format(
-                    "[out:json];\nrel[\"name\"=\"%s\"];\nout center;",
-                    queryParts[0]
-                );
-            } else if (queryParts.length == 2) {
-                overpassQuery = String.format(
-                "[out:json];\n(\nway[\"addr:street\"=\"%s\"][\"addr:housenumber\"=\"%s\"];\nway[\"addr:street\"=\"%s\"][\"addr:housenumber\"=\"%s\"];\nway[\"addr:street\"=\"%s\"][\"addr:city\"=\"%s\"];\nway[\"addr:street\"=\"%s\"][\"addr:city\"=\"%s\"];\nway[\"addr:street\"=\"%s\"][\"addr:postcode\"=\"%s\"];\nway[\"addr:street\"=\"%s\"][\"addr:postcode\"=\"%s\"];\n);\nout center;",
-                queryParts[0], queryParts[1], queryParts[1], queryParts[0], queryParts[0], queryParts[1],
-                queryParts[1], queryParts[0], queryParts[0], queryParts[1], queryParts[1], queryParts[0]
-                );
-
-            } else if (queryParts.length == 3) {
-                overpassQuery = String.format(
-                    "[out:json];\n(\nway[\"addr:street\"=\"%s\"][\"addr:housenumber\"=\"%s\"][\"addr:postcode\"=\"%s\"];\n" +
-                    "way[\"addr:street\"=\"%s\"][\"addr:housenumber\"=\"%s\"][\"addr:postcode\"=\"%s\"];\n" +
-                    "way[\"addr:street\"=\"%s\"][\"addr:housenumber\"=\"%s\"][\"addr:postcode\"=\"%s\"];\n" +
-                    "way[\"addr:street\"=\"%s\"][\"addr:housenumber\"=\"%s\"][\"addr:postcode\"=\"%s\"];\n" +
-                    "way[\"addr:street\"=\"%s\"][\"addr:housenumber\"=\"%s\"][\"addr:postcode\"=\"%s\"];\n" +
-                    "way[\"addr:street\"=\"%s\"][\"addr:housenumber\"=\"%s\"][\"addr:postcode\"=\"%s\"];\n\n" +
-                    "way[\"addr:street\"=\"%s\"][\"addr:city\"=\"%s\"][\"addr:postcode\"=\"%s\"];\n" +
-                    "way[\"addr:street\"=\"%s\"][\"addr:city\"=\"%s\"][\"addr:postcode\"=\"%s\"];\n" +
-                    "way[\"addr:street\"=\"%s\"][\"addr:city\"=\"%s\"][\"addr:postcode\"=\"%s\"];\n" +
-                    "way[\"addr:street\"=\"%s\"][\"addr:city\"=\"%s\"][\"addr:postcode\"=\"%s\"];\n" +
-                    "way[\"addr:street\"=\"%s\"][\"addr:city\"=\"%s\"][\"addr:postcode\"=\"%s\"];\n" +
-                    "way[\"addr:street\"=\"%s\"][\"addr:city\"=\"%s\"][\"addr:postcode\"=\"%s\"];\n\n" +
-                    "way[\"addr:street\"=\"%s\"][\"addr:city\"=\"%s\"][\"addr:housenumber\"=\"%s\"];\n" +
-                    "way[\"addr:street\"=\"%s\"][\"addr:city\"=\"%s\"][\"addr:housenumber\"=\"%s\"];\n" +
-                    "way[\"addr:street\"=\"%s\"][\"addr:city\"=\"%s\"][\"addr:housenumber\"=\"%s\"];\n" +
-                    "way[\"addr:street\"=\"%s\"][\"addr:city\"=\"%s\"][\"addr:housenumber\"=\"%s\"];\n" +
-                    "way[\"addr:street\"=\"%s\"][\"addr:city\"=\"%s\"][\"addr:housenumber\"=\"%s\"];\n" +
-                    "way[\"addr:street\"=\"%s\"][\"addr:city\"=\"%s\"][\"addr:housenumber\"=\"%s\"];\n" +
-                    ");\nout center;",
-                    queryParts[0], queryParts[1], queryParts[2],
-                    queryParts[0], queryParts[2], queryParts[1],
-                    queryParts[1], queryParts[0], queryParts[2],
-                    queryParts[1], queryParts[2], queryParts[0],
-                    queryParts[2], queryParts[0], queryParts[1],
-                    queryParts[2], queryParts[1], queryParts[0],
-                    queryParts[0], queryParts[1], queryParts[2],
-                    queryParts[0], queryParts[2], queryParts[1],
-                    queryParts[1], queryParts[0], queryParts[2],
-                    queryParts[1], queryParts[2], queryParts[0],
-                    queryParts[0], queryParts[2], queryParts[1],
-                    queryParts[0], queryParts[1], queryParts[2],
-                    queryParts[1], queryParts[2], queryParts[0],
-                    queryParts[2], queryParts[0], queryParts[1],
-                    queryParts[2], queryParts[1], queryParts[0],
-                    queryParts[0], queryParts[2], queryParts[1],
-                    queryParts[0], queryParts[1], queryParts[2],
-                    queryParts[1], queryParts[2], queryParts[0],
-                    queryParts[2], queryParts[0], queryParts[1],
-                    queryParts[2], queryParts[1], queryParts[0]
-                );
-            }
-
             try {
-                HttpClient httpClient = HttpClients.createDefault();
-                String baseUrl = "http://overpass-api.de/api/interpreter";
-                URI uri = new URIBuilder(baseUrl)
-                        .setParameter("data", overpassQuery)
-                        .build();
+                HttpClient httpclient = HttpClients.createDefault();
+                URIBuilder builder = new URIBuilder("https://nominatim.openstreetmap.org/search?");
+                builder.setParameter("q", query);
+                builder.setParameter("format", "json");
+                builder.setParameter("limit", "5");
+                builder.setParameter("countrycodes", "de");
+                URI uri = builder.build();
+                HttpGet request = new HttpGet(uri);
 
-                HttpGet httpGet = new HttpGet(uri);
-                HttpResponse response = httpClient.execute(httpGet);
-                responseBody = EntityUtils.toString(response.getEntity());
+                HttpResponse response = httpclient.execute(request);
+                String responseBody = EntityUtils.toString(response.getEntity());
+
+                System.out.println(responseBody);
+
+                Gson gson = new Gson();
+                JsonArray jsonArray = gson.fromJson(responseBody, JsonArray.class);
+                List<JsonObject> results = new ArrayList<>();
+                for (JsonElement jsonElement : jsonArray) {
+                    JsonObject jsonObject = jsonElement.getAsJsonObject();
+                    JsonObject result = new JsonObject();
+                    result.addProperty("display_name", jsonObject.get("display_name").getAsString());
+                    result.addProperty("lat", jsonObject.get("lat").getAsDouble());
+                    result.addProperty("lon", jsonObject.get("lon").getAsDouble());
+                    results.add(result);
+                }
+
+                JsonElement jsonElement = gson.toJsonTree(results);
+                String json = gson.toJson(jsonElement);
+                ctx.result(json);
+                return;
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            JsonArray elements = new Gson().fromJson(responseBody, JsonElement.class).getAsJsonObject().getAsJsonArray("elements");
-        
-            // Create a list to rank elements by the number of tags
-
-            List<JsonObject> ranked = new ArrayList<>();
-                                    
-            for (int i = 0; i < elements.size(); i++) {
-                JsonObject element = elements.get(i).getAsJsonObject();
-                JsonObject tags = element.getAsJsonObject("tags");
-                int numTags = tags != null ? tags.size() : 0;
-                JsonObject elementCopy = element.deepCopy();
-                elementCopy.addProperty("tagCount", numTags);
-                ranked.add(elementCopy);
-            }
-
-            // Sort by the number of tags in descending order
-            ranked.sort((a, b) -> b.get("tagCount").getAsInt() - a.get("tagCount").getAsInt());
-
-            // Get the top 10 ranked elements
-            ranked = ranked.subList(0, Math.min(10, ranked.size()));
-        
-            List<JsonObject> results = new ArrayList<>();
-        
-            for (JsonObject place : ranked) {
-                double lat, lon;
-
-                if (place.has("center")) {
-                    JsonObject center = place.getAsJsonObject("center");
-                    lat = center.get("lat").getAsDouble();
-                    lon = center.get("lon").getAsDouble();
-                } else {
-                    try {
-                        lat = place.get("lat").getAsDouble();
-                        lon = place.get("lon").getAsDouble();
-                    } catch (Exception e) {
-                        // Couldn't find coordinates, skip
-                        continue;
-                    }
-                }
-
-                String name = place.getAsJsonObject("tags").has("name") ? place.getAsJsonObject("tags").get("name").getAsString() : null;
-                String building = place.getAsJsonObject("tags").has("building") ? "building" : null;
-                String placeType = place.getAsJsonObject("tags").has("place") ? place.getAsJsonObject("tags").get("place").getAsString() : null;
-
-                JsonObject result = new JsonObject();
-                result.addProperty("id", place.get("id").getAsLong());
-                result.addProperty("lat", lat);
-                result.addProperty("lon", lon);
-                result.addProperty("name", name);
-                result.addProperty("building", building);
-                result.addProperty("place_type", placeType);
-        
-                results.add(result);
-            }
-        
-            Gson gson = new Gson();
-            JsonElement jsonElement = gson.toJsonTree(results);
-            String json = gson.toJson(jsonElement);
-            ctx.result(json);
-            return;
+            
+            
         });
 
         // Javalin route for API which finds the nearest node to a given location.

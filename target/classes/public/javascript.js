@@ -230,27 +230,12 @@ $(document).ready(function() {
                 
                     for (var i = 0; i < response.length; i++) {
                         var place = response[i];
-                        var id = place["id"];
-                        var lat = place["lat"];
-                        var lon = place["lon"];
-                        var name = place["name"];
-                        var building = place["building"];
-                        var type = place["place_type"];
-
-                        if (type == "city" || type == "town" || type == "village" || type == "hamlet" || type == "suburb" || type == "neighbourhood") {
-                            symbol = "location_city";
-                        } else if (building == "building") {
-                            symbol = "house";
-                        } else {
-                            symbol = "place"
-                        }
-
-                        if (name == null) {
-                            name = "Address";
-                        }
+                        var lat = place["lat"].toFixed(6);
+                        var lon = place["lon"].toFixed(6);
+                        var display_name = place["display_name"];
 
                         var placeElement = document.createElement("div");
-                        placeElement.innerHTML =  '<div onclick="getNearestNode(' + lat + ' ,' + lon + ')" style="cursor: pointer; width: 100%; display: flex; flex-direction: row; gap: 10px; margin: 10px 0;"><div style="display: flex; justify-content: left; align-items: center;"><span style="margin-right: 5px;" class="material-symbols-outlined align-icons-center">' + symbol + '</span><p>' + name + '</p></div><div style="display: flex; justify-content: right; align-items: center; flex: 1;">' + lat + ', ' + lon + '</div><div style="display: none; justify-content: right; align-items: center; flex: 1;"></div>'
+                        placeElement.innerHTML =  '<div onclick="getNearestNode(' + lat + ' ,' + lon + ')" style="cursor: pointer; width: 100%; display: flex; flex-direction: row; gap: 10px; margin: 10px 0;"><div style="display: flex; justify-content: left; align-items: center;"><span style="margin-right: 15px;" class="material-symbols-outlined align-icons-center">public</span><p>' + display_name + '</p></div><div style="display: flex; justify-content: right; align-items: center; flex: 1;">' + lat + ', ' + lon + '</div><div style="display: none; justify-content: right; align-items: center; flex: 1;"></div>'
                         searchResults.append(placeElement);
 
                     }
