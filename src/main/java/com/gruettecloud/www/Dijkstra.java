@@ -135,7 +135,6 @@ public class Dijkstra {
         }
         int[] distances = this.distances;
         int[] previousNodes = this.previousNodes;
-        int start = this.start;
         List<Integer> route = new ArrayList<>();
         int currentNode = node;
         while (currentNode != -1) {
@@ -199,9 +198,9 @@ public class Dijkstra {
         Dijkstra dijkstra = new Dijkstra(ds);
 
 
-        int startNode = 480860;
-        int endNode = 480861;
-        int thirdNode = 480862;
+        //int startNode = 480860;
+        //int endNode = 480861;
+        //int thirdNode = 480862;
         // 146
         // 382
         
