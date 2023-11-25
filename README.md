@@ -24,17 +24,17 @@ Routes are visualized using GeoJSON and the Leaflet JavaScript library. You can 
   - After start and end point are selected, you can calculate the route.
   - The route will be calculated using a custom Dijkstra algorithm implementation.
   - Depending on the distance, the calculation may take a few seconds.
-  - On an M1 Pro MacBook Pro, the longest possible route (from the most northern point to the most southern point of Germany) takes about 15 seconds to calculate.
+  - On an M1 Pro MacBook Pro, the one-to-all Dijkstra takes 8696ms to calculate.
 
 - <u>Route Visualization</u>
-  - After the route is calculated, it will be visualized on the map using GeoJSON.
-  - On the upper right corner of the map, you can open the DevView to get more information about the route, like startNodeID, endNodeID, distance and calculation time.
+  - After the route is calculated, it will be displayed on the map as a blue line using GeoJSON.
+  - In the upper right corner of the map, you can open the DevView to get more information about the route, like startNodeID, endNodeID, distance and calculation time.
   - If an error occurs during the calculation or the nearest node search, you will get an error message displayed on the map.
 
 - <u>One-to-All Dijkstra</u>
   - You can also calculate the shortest path from a single node to all other nodes.
-  - This however can only be done via the API. The frontend does not support this feature.
-  - Please use the Method `shortestPath(int start, int end)` with the arguments `startNode` and `-1` within the `Dijkstra` class. The -1 endNodeID will make sure that the algorithm will calculate the shortest path to all other nodes.
+  - This however cannot be done using the frontend. You must use the code interface provided by the `Dijkstra` class.
+  - Please use the Method `shortestPath(int start, int end)` with the arguments `<YOUR_START_NODE_ID>` and `-1` within the `Dijkstra` class. The `-1` will make sure that the algorithm will calculate the shortest path to all other nodes without stopping early.
   - Now you can use the `getAllRouteTo(int EndNode)` method to get the shortest path from the start node to any point you desire with the distances and predecessors you just calculated.
 
 - <u>Dark Mode</u>
@@ -54,7 +54,7 @@ To execute the project as required by the course, you need to do the following:
 - Install Java with Maven.
 - Clone the repository.
 - Download the graph data (germany.fmi.bz2) from the [FMI](https://fmi.uni-stuttgart.de/alg/research/stuff/) and the benchmark data from [here]( https://fmi.uni-stuttgart.de/files/alg/data/graphs/Benchs.tar.bz2).
-- Place the extracted files (germany.fmi, germany.que and germany.sol) in the root directory of the project.
+- Place the extracted files (germny.fmi, germany.que and germany.sol) in the root directory of the project.
 - cd into the project directory.
 - Run `mvn compile`.
 - Run the benchmark with `mvn exec:java -Dexec.mainClass="com.gruettecloud.www.Benchmark" -Dexec.args="-graph germany.fmi -lon 9.098 -lat 48.746 -que germany.que -s 638394 -Xmx6g"`.
