@@ -50,7 +50,6 @@ public class App {
             routeCoordinates[i][0] = lon;
         }
 
-        // create GeoJSON by iterating over route
         String geoJson = "{\n" +
                 "  \"type\": \"FeatureCollection\",\n" +
                 "  \"features\": [\n" +
