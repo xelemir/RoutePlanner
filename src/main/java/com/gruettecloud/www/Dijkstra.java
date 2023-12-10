@@ -130,7 +130,7 @@ public class Dijkstra {
      */
     public List<Integer> getAllRouteTo(int node) {
         // return Route for specified node. Last index is the distance
-        if (this.distances == null || this.previousNodes == null || this.start == 0) {
+        if (this.distances == null || this.previousNodes == null) {
             throw new IllegalStateException("Data not available. Please run dijkstra.shortestPath(start, -1) first.");
         }
         int[] distances = this.distances;
@@ -147,8 +147,7 @@ public class Dijkstra {
     }
 
     /**
-     * This method performs heapify operation on the given minHeap array based on
-     * the distances array.
+     * Heapifies the minHeap array using recursion.
      * 
      * @param minHeap   The array to be heapified.
      * @param distances The array containing distances.

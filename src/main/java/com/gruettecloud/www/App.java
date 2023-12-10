@@ -20,12 +20,10 @@ import io.javalin.Javalin;
 import io.javalin.http.staticfiles.Location;
 
 /**
- * This class represents the main application for the RoutePlannerFMI project.
+ * This class represents the main application for the Route Planner.
  * It contains the main method which starts the Javalin web server and handles HTTP requests.
  * The HTTP requests include searching for a place, finding the nearest node to a given location,
- * and finding the shortest route between two nodes.
- * The class also uses various external libraries such as Apache HttpComponents and Gson.
- * The class is responsible for parsing the response from the Overpass API and returning the results as JSON.
+ * and finding the shortest route between two nodes. Answers are returned as JSON strings.
  */
 public class App {
 
@@ -87,8 +85,7 @@ public class App {
         Dijkstra dijkstra = new Dijkstra(dataStructures);
 
         /*
-         * Javalin is a lightweight Java web framework.
-         * You can access the web server at http://localhost:7070
+         * Webserver available at http://localhost:7070
          */
         Javalin app = Javalin.create(config -> {
             config.staticFiles.add("/public", Location.CLASSPATH);
@@ -96,7 +93,7 @@ public class App {
         }).start(7070);
 
         /*
-         * Javalin route for API which searches for a place using the Overpass API.
+         * HTTP route to enable searching for a place.
          * Not part of specification, so please ignore.
          */
         app.get("/search_place", ctx -> {
@@ -141,7 +138,7 @@ public class App {
             
         });
 
-        // Javalin route for API which finds the nearest node to a given location.
+        // HTTP route for API which finds the nearest node to a given location.
         app.get("/nearestNode", ctx -> {
             double lat = Double.parseDouble(ctx.queryParam("lat"));
             double lon = Double.parseDouble(ctx.queryParam("lon"));
@@ -160,7 +157,7 @@ public class App {
             return;
         });
 
-        // Javalin route for API which finds the shortest route between two nodes using Dijkstra's algorithm.
+        // HTTP route to calculate the shortest route between two nodes using Dijkstra's algorithm.
         app.get("/route", ctx -> {
             int start = Integer.parseInt(ctx.queryParam("start"));
             int end = Integer.parseInt(ctx.queryParam("end"));
@@ -178,7 +175,7 @@ public class App {
             double timeElapsed = (endTime - startTime) / 1000.0;
             System.out.println("Time elapsed: " + timeElapsed + " seconds.");
 
-            // last element in route is the distance
+            // Last element in route is the distance
             int distance = route.get(route.size() - 1);
             route.remove(route.size() - 1);
 
