@@ -57,8 +57,8 @@ To execute the project as required by the course, you need to do the following:
 - Place the extracted files (germany.fmi, germany.que and germany.sol) in the root directory of the project.
 - cd into the project directory.
 - Run `mvn compile`.
-- Run the benchmark with `mvn exec:java -Dexec.mainClass="com.gruettecloud.www.Benchmark" -Dexec.args="-graph germany.fmi -lon 9.098 -lat 48.746 -que germany.que -s 638394 -Xmx6g"`.
-- If you'd like to use the GUI, run `mvn exec:java -Dexec.mainClass="com.gruettecloud.www.App" -Dexec.args="-Xmx6g"`. The web app will be available at http://localhost:7070/.
+- Run the benchmark with `mvn exec:java -Dexec.mainClass="com.gruettecloud.www.Benchmark" -Dexec.args="-graph germany.fmi -lon 9.098 -lat 48.746 -que germany.que -s 638394" -Dexec.jvmArgs="-Xmx6g"`.
+- If you'd like to use the GUI, run `mvn exec:java -Dexec.mainClass="com.gruettecloud.www.App" -Dexec.jvmArgs="-Xmx6g"`. The web app will be available at http://localhost:7070/.
 
 ## ✍️ Authors <a name = "authors"></a>
 - [@Xiwen](https://github.com/Xiwen728)
