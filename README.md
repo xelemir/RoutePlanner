@@ -54,7 +54,7 @@ To execute the project as required by the course, you need to do the following:
 - Install Java with Maven.
 - Clone the repository.
 - Download the graph data (germany.fmi.bz2) from the [FMI](https://fmi.uni-stuttgart.de/alg/research/stuff/) and the benchmark data from [here]( https://fmi.uni-stuttgart.de/files/alg/data/graphs/Benchs.tar.bz2).
-- Place the extracted files (germny.fmi, germany.que and germany.sol) in the root directory of the project.
+- Place the extracted files (germany.fmi, germany.que and germany.sol) in the root directory of the project.
 - cd into the project directory.
 - Run `mvn compile`.
 - Run the benchmark with `mvn exec:java -Dexec.mainClass="com.gruettecloud.www.Benchmark" -Dexec.args="-graph germany.fmi -lon 9.098 -lat 48.746 -que germany.que -s 638394 -Xmx6g"`.
