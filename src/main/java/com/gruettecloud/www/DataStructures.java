@@ -30,6 +30,9 @@ public class DataStructures {
             int amountNodes = Integer.parseInt(reader.readLine());
             int amountEdges = Integer.parseInt(reader.readLine());
 
+            System.out.println("Amount of nodes: " + amountNodes);
+            System.out.println("Amount of edges: " + amountEdges);
+
             this.nodesWithOffset = new int[amountNodes][4];
             this.nodesOrderedByLatitude = new double[amountNodes][3];
             this.edges = new int[amountEdges][3];
