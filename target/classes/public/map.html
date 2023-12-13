@@ -88,63 +88,63 @@
 
 
 <div class="nav-view" style="position: absolute; z-index: 2;">
-    <div style="display: flex; gap: 10px; margin-bottom: 10px; align-items: center;">
-        <div onclick="toggleView()" style="cursor: pointer; font-size: 1em; height: 50px; width: 50px; border-radius: 50%; background-color: var(--background-color); color: var(--text-color); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); display: flex; justify-content: center; align-items: center;">
-            <span class="material-symbols-outlined align-icons-center">menu</span>
-        </div>
-        <input id="search-bar" type="text" class="login-input" autocomplete="off" placeholder="Search FMI Maps" style="flex: 1; font-size: 1em; height: 50px; margin: 0; border-radius: 30px; padding-left: 20px; padding-right: 50px; background-color: var(--background-color); color: var(--text-color); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);" required>
-        <div style="position: relative;">
-            <div style="z-index: 1; position: absolute; top: -20px; right: 15px; display: flex; background-color: var(--primary-color); height: 40px; width: 40px; border-radius: 50%; justify-content: center; align-items: center; cursor: pointer;">
-                <span class="material-symbols-outlined align-icons-center" style="color: var(--white-color);">search</span>
-            </div>
-            <div id="close-search" style="z-index: 2; position: absolute; top: -20px; right: 15px; background-color: var(--red); height: 40px; width: 40px; border-radius: 50%; justify-content: center; align-items: center; cursor: pointer; display: none;">
-                <span onclick="restart()" class="material-symbols-outlined align-icons-center" style="color: var(--white-color);">close</span>
-            </div>
-        </div>
-    </div>
-    
-
-    <div id="search-results" style="margin-bottom: 10px; background-color: var(--background-color); border-radius: 30px; padding: 10px 20px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); display: none; flex-direction: column; justify-content: space-between;"></div>
-
-    
-    <div class="animate__animated animate__jackInTheBox"  id="toggle-view" style="display: none; background-color: var(--background-color); max-height: 80svh; border-radius: 30px; padding: 20px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); flex-direction: column; justify-content: space-between;">
+    <div id="toggle-view" style="background-color: var(--background-color); max-height: 80svh; border-radius: 30px; padding: 20px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); flex-direction: column; justify-content: space-between;">
         <h1>FMI Maps</h1>
-        <div style="background-color: transparent; border: none; cursor: pointer; position: absolute; margin-top: 5px; left: 20px; display: flex; color: var(--text-color);">
+        <div style="display: flex; background-color: transparent; border: none; cursor: pointer; position: absolute; top: 25px; left: 22px; color: var(--text-color);">
             <span id="darkModeToggle" class="material-symbols-outlined white-button-blue-on-hover align-icons-center" title="Darkmode">dark_mode</span>
         </div>
-        <button id="restart-button" onclick="restart()" style="background-color: transparent; border: none; cursor: pointer; position: absolute; margin-top: 5px; right: 20px; display: none; color: var(--text-color);">
-            <span class="material-symbols-outlined align-icons-center">close</span>
+        <button id="restart-button" onclick="reset('all')" style="background-color: transparent; border: none; cursor: pointer; position: absolute; top: 25px; right: 22px; display: none; color: var(--text-color);">
+            <span class="material-symbols-outlined align-icons-center">refresh</span>
         </button>
-        <hr style="border: 1px solid var(--box-shadow-color); border-radius: 5px; margin: 20px 0px; margin-top: 10px;">
-        <div style="width: 100%; flex-direction: column; gap: 5px;">
-            <div id="start" style="width: 100%; display: none; flex-direction: row; gap: 10px;">
+        <!--<hr style="border: 1px solid var(--box-shadow-color); border-radius: 5px; margin: 20px 0px; margin-top: 10px;">-->
+        <div style="width: 100%; flex-direction: column; gap: 5px; margin-top: 25px;">
+            <div id="start" style="width: 100%; display: none; flex-direction: row; gap: 20px;">
                 <div style="display: flex; justify-content: left; align-items: center;">
-                    <span style="margin-right: 5px;" class="material-symbols-outlined align-icons-center">directions_car</span>
-                    <p>Start</p>
+                    <span style="margin-right: 5px; font-size: 1.8em;" class="material-symbols-outlined align-icons-center">directions_car</span>
                 </div>
-                <div id="start-hint" style="display: flex; justify-content: right; align-items: center; flex: 1; flex-direction: row;">
+                <!--<div id="start-hint" style="display: flex; justify-content: right; align-items: center; flex: 1; flex-direction: row;">
                     Click on map or
                     <button onclick="requestLocation()" style="background-color: var(--primary-color); color: var(--white-color); border-radius: 30px; padding: 2px 10px; border: none; cursor: pointer; margin: 0px 5px;">
                         My Location
                     </button>
                 </div>
                 <div id="start-coordinates" style="display: none; justify-content: right; align-items: center; flex: 1;">
+                </div>-->
+                <input id="start-input" type="text" class="login-input" autocomplete="off" placeholder="Choose start or use" style="display: flex; flex: 1; font-size: 1em; height: 40px; margin: 0; border-radius: 20px; padding-left: 15px; padding-right: 50px; color: var(--text-color); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);" required>
+                <div id="my-location" onclick="requestLocation()" style="position: absolute; right: 26px; margin-top: 5px; display: flex; justify-content: right; align-items: center; flex: 1; cursor: pointer; color: var(--white-color); background-color: var(--primary-color); border-radius: 25px; height: 30px; padding: 0px 10px;">
+                My Location
                 </div>
+                <div id="start-search-icon" style="position: absolute; right: 26px; margin-top: 5px; display: none; justify-content: center; align-items: center; flex: 1; cursor: pointer; color: var(--white-color); background-color: var(--primary-color); border-radius: 25px; height: 30px; width: 30px; padding: 0px 10px;" onmouseover="showInputReset('start')" onmouseleave="showInputReset('start-hide')">
+                    <span style="color: var(--white-color); font-size: 1.3em;" class="material-symbols-outlined align-icons-center">search</span>
+                </div>
+                <div id="reset-start-input" onclick="reset('start')" style="position: absolute; right: 26px; margin-top: 5px; display: none; justify-content: center; align-items: center; flex: 1; cursor: pointer; color: var(--white-color); background-color: var(--red); border-radius: 25px; height: 30px; width: 30px; padding: 0px 10px;" onmouseover="showInputReset('start')" onmouseleave="showInputReset('start-hide')">
+                    <span style="color: var(--white-color);" class="material-symbols-outlined align-icons-center">close</span>
+                </div>
+                <div id="start-coordinates" style="display: none; flex: 1; font-size: 1em; height: 40px; margin: 0; border-radius: 30px; padding-left: 15px; padding-right: 50px; background-color: var(--secondary-color); color: var(--text-color); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); justify-content: left; align-items: center;" onmouseover="showInputReset('start')" onmouseleave="showInputReset('start-hide')"></div>
             </div>
+            <div id="start-results" style="background-color: var(--secondary-color); border-radius: 20px; padding: 10px 15px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); display: none; flex-direction: column; justify-content: space-between; margin-top: 20px; margin-bottom: 20px;"></div>
             <div id="route-decorator" style="display: none; justify-content: left; align-items: center;">
-                <span style="margin: 10px 0; margin-right: 5px;" class="material-symbols-outlined align-icons-center">more_vert</span>
+                <span style="margin: 0px 0; margin-right: 5px; font-size: 1.8em;" class="material-symbols-outlined align-icons-center">more_vert</span>
             </div>
-            <div id="destination" style="width: 100%; display: flex; flex-direction: row; gap: 10px;">
+            <div id="destination" style="width: 100%; display: flex; flex-direction: row; gap: 20px;">
                 <div style="display: flex; justify-content: left; align-items: center;">
-                    <span style="margin-right: 5px;" class="material-symbols-outlined align-icons-center">location_on</span>
-                    <p>Destination</p>
+                    <span style="margin-right: 5px; font-size: 1.8em" class="material-symbols-outlined align-icons-center">location_on</span>
                 </div>
-                <div id="destination-hint" style="display: flex; justify-content: right; align-items: center; flex: 1;">
+                <!--<div id="destination-hint" style="display: flex; justify-content: right; align-items: center; flex: 1;">
                     Click on the map
                 </div>
                 <div id="destination-coordinates" style="display: none; justify-content: right; align-items: center; flex: 1;">
+                </div>-->
+                <input id="destination-input" type="text" class="login-input" autocomplete="off" placeholder="Search destination or click map" style="display: flex; flex: 1; font-size: 1em; height: 40px; margin: 0; border-radius: 30px; padding-left: 15px; padding-right: 50px; color: var(--text-color); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);" required>
+                <div id="destination-search-icon" style="position: absolute; right: 26px; margin-top: 5px; display: none; justify-content: center; align-items: center; flex: 1; cursor: pointer; color: var(--white-color); background-color: var(--primary-color); border-radius: 25px; height: 30px; width: 30px; padding: 0px 10px;" onmouseover="showInputReset('start')" onmouseleave="showInputReset('start-hide')">
+                    <span style="color: var(--white-color); font-size: 1.3em;" class="material-symbols-outlined align-icons-center">search</span>
                 </div>
+                <div id="reset-destination-input" onclick="reset('destination')" style="position: absolute; right: 26px; margin-top: 5px; display: none; justify-content: center; align-items: center; flex: 1; cursor: pointer; color: var(--white-color); background-color: var(--red); border-radius: 25px; height: 30px; width: 30px; padding: 0px 10px;" onmouseover="showInputReset('destination')" onmouseleave="showInputReset('destination-hide')">
+                    <span style="color: var(--white-color);" class="material-symbols-outlined align-icons-center">close</span>
+                </div>
+                <div id="destination-coordinates" style="display: none; flex: 1; font-size: 1em; height: 40px; margin: 0; border-radius: 30px; padding-left: 15px; padding-right: 15px; background-color: var(--secondary-color); color: var(--text-color); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); justify-content: left; align-items: center;" onmouseover="showInputReset('destination')" onmouseleave="showInputReset('destination-hide')"></div>
             </div>
+            <div id="destination-results" style="background-color: var(--secondary-color); border-radius: 20px; padding: 10px 15px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); display: none; flex-direction: column; justify-content: space-between; margin-top: 20px;"></div>
             <div id="buttons" style="display: none; justify-content: left; align-items: center; margin-top: 20px;">
                 <button id="calculate-button" onclick="calculateRoute()" style="background-color: var(--primary-color); color: var(--white-color); border-radius: 30px; padding: 2px 10px; border: none; cursor: pointer; display: flex; justify-content: center; align-items: center; flex: 1; height: 40px;">
                     <span style="margin-right: 5px; color: var(--white-color);" class="material-symbols-outlined align-icons-center">directions</span> Get Directions
@@ -153,7 +153,7 @@
                     <span style="margin-right: 5px; color: var(--red);" class="material-symbols-outlined align-icons-center">warning</span>
                     <p style="color: var(--red);">No Route Found</p>
                 </div>
-                <button id="reset-button" onclick="restart()" style="background-color: var(--primary-color); color: var(--white-color); border-radius: 30px; padding: 2px 10px; border: none; cursor: pointer; display: none; justify-content: center; align-items: center; flex: 1; height: 40px;">
+                <button id="reset-button" onclick="reset('all')" style="background-color: var(--primary-color); color: var(--white-color); border-radius: 30px; padding: 2px 10px; border: none; cursor: pointer; display: none; justify-content: center; align-items: center; flex: 1; height: 40px;">
                     <span style="margin-right: 5px; color: var(--white-color);" class="material-symbols-outlined align-icons-center">done</span> Done
                 </button>
                 <div id="calculating-wheel" style="display: none; justify-content: center; align-items: center; flex: 1; height: 40px;">
@@ -213,5 +213,358 @@
 </body>
 </html>
 
-<script src="/javascript.js"></script>
+<!--<script src="/javascript.js"></script>-->
 <script src="https://www.gruettecloud.com/static/darkmodeMaps.js"></script>
+
+
+
+
+<script>
+var start = [null, null, null];
+var destination = [null, null, null];
+
+var inputSelected = destination;
+
+document.getElementById("destination-input").focus();
+
+document.getElementById("start-input").addEventListener("focus", function() {
+    inputSelected = "start";
+});
+
+document.getElementById("destination-input").addEventListener("focus", function() {
+    inputSelected = "destination";
+});
+
+
+var map = new L.map('map', {
+    center: [48.783, 9.183],
+    zoom: 13,
+    zoomControl: false,
+});
+
+const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
+
+function setMarker(lat, lng, role) {
+    var marker = L.marker([lat, lng]).addTo(map).bindPopup('<b>' + role + '</b><br />' + lat.toFixed(6) + ", " + lng.toFixed(6)).openPopup();
+}
+
+
+function onMapClick(e) {
+    if (destination[0] == null || start[0] == null) {
+        getNearestNode(e.latlng.lat, e.latlng.lng);
+    }
+}
+
+map.on('click', onMapClick);
+
+function showInputReset(input) {
+    if (input == "start") {
+        document.getElementById("reset-start-input").style.display = "flex";
+    } else if (input == "destination") {
+        document.getElementById("reset-destination-input").style.display = "flex";
+    } else if (input == "start-hide") {
+        document.getElementById("reset-start-input").style.display = "none";
+    } else if (input == "destination-hide") {
+        document.getElementById("reset-destination-input").style.display = "none";
+    }
+}
+
+function reset(input) {
+    document.getElementById("buttons").style.display = "none";
+    document.getElementById("calculate-button").style.display = "flex";
+    document.getElementById("reset-button").style.display = "none";
+    document.getElementById("no-route-found").style.display = "none";
+
+    document.getElementById("start-results").style.display = "none";
+    document.getElementById("start-results").innerHTML = "";
+    document.getElementById("destination-results").style.display = "none";
+    document.getElementById("destination-results").innerHTML = "";
+    document.getElementById("start-search-icon").style.display = "none";
+    document.getElementById("destination-search-icon").style.display = "none";
+
+    if (input == "start") {
+        start = [null, null, null];
+        document.getElementById("start-input").value = "";
+        document.getElementById("start-input").style.display = "flex";
+        document.getElementById("start-coordinates").style.display = "none";
+        document.getElementById("reset-start-input").style.display = "none";
+
+        document.getElementById("my-location").style.display = "flex";
+
+        map.eachLayer(function (layer) {
+            if (layer instanceof L.Marker && layer.getPopup().getContent().startsWith("<b>Start</b>")) {
+                map.removeLayer(layer);
+            }
+        });
+        inputSelected = "start";
+        document.getElementById("start-node").innerHTML = "-";
+        document.getElementById("start-input").focus();
+
+    } else if (input == "destination") {
+        destination = [null, null, null];
+        document.getElementById("destination-input").value = "";
+        document.getElementById("destination-input").style.display = "flex";
+        document.getElementById("destination-coordinates").style.display = "none";
+        document.getElementById("reset-destination-input").style.display = "none";
+
+        map.eachLayer(function (layer) {
+            if (layer instanceof L.Marker && layer.getPopup().getContent().startsWith("<b>Destination</b>")) {
+                map.removeLayer(layer);
+            }
+        });
+        inputSelected = "destination";
+        document.getElementById("end-node").innerHTML = "-";
+        document.getElementById("destination-input").focus();
+
+    } else if (input == "all") {
+        reset("start");
+        reset("destination");
+
+        map.eachLayer(function (layer) {
+            if (layer instanceof L.GeoJSON) {
+                map.removeLayer(layer);
+            }
+        });
+
+        inputSelected = "destination";
+        document.getElementById("start").style.display = "none";
+        document.getElementById("route-decorator").style.display = "none";
+        document.getElementById("distance").innerHTML = "-";
+        document.getElementById("timer").innerHTML = "-";
+        document.getElementById("restart-button").style.display = "none";
+        document.getElementById("destination-input").focus();
+    }
+}
+
+function handleNodeResponse(lat, lon, node) {
+    document.getElementById("start-results").style.display = "none";
+    document.getElementById("start-results").innerHTML = "";
+    document.getElementById("destination-results").style.display = "none";
+    document.getElementById("destination-results").innerHTML = "";
+    document.getElementById("start-search-icon").style.display = "none";
+    document.getElementById("destination-search-icon").style.display = "none";
+    document.getElementById("restart-button").style.display = "flex";
+
+    if (inputSelected == "start") {
+        start = [lat, lon, node];
+        map.eachLayer(function (layer) {
+            if (layer instanceof L.Marker && layer.getPopup().getContent().startsWith("<b>Start</b>")) {
+                map.removeLayer(layer);
+            }
+        });
+        document.getElementById("my-location").style.display = "none";
+        setMarker(lat, lon, "Start");
+        document.getElementById("start-coordinates").innerHTML = lat.toFixed(6) + ", " + lon.toFixed(6);
+        document.getElementById("start-input").style.display = "none";
+        document.getElementById("start-coordinates").style.display = "flex";
+        document.getElementById("start-node").innerHTML = node;
+
+    } else {
+        inputSelected = "start";
+        destination = [lat, lon, node];
+        map.eachLayer(function (layer) {
+            if (layer instanceof L.Marker && layer.getPopup().getContent().startsWith("<b>Destination</b>")) {
+                map.removeLayer(layer);
+            }
+        });
+        setMarker(lat, lon, "Destination");
+        document.getElementById("destination-coordinates").innerHTML = lat.toFixed(6) + ", " + lon.toFixed(6);
+        document.getElementById("destination-input").style.display = "none";
+        document.getElementById("destination-coordinates").style.display = "flex";
+        document.getElementById("end-node").innerHTML = node;
+    }
+
+    if (start[0] != null && destination[0] != null) {
+        document.getElementById("buttons").style.display = "flex";
+    }
+
+    document.getElementById("start").style.display = "flex";
+    document.getElementById("route-decorator").style.display = "flex";
+}
+
+function getNearestNode(lat, lon) {
+    if (lat != null && lon != null) {
+        $.ajax({
+            url: "/nearestNode?lat=" + encodeURIComponent(lat) + "&lon=" + encodeURIComponent(lon),
+            method: 'GET',
+            success: function(response) {
+                jsonData = JSON.parse(response);
+                lat = jsonData[1];
+                lon = jsonData[2];
+                node = jsonData[0];
+                handleNodeResponse(lat, lon, node);
+            },
+            error: function(xhr, status, error) {
+                if (xhr.status == 400) {
+                    displayError(xhr, error, "No node in suitable distance found.");
+                } else {
+                    displayError(xhr, error, xhr.responseText);
+                }
+            }
+        });
+    }
+}
+
+function calculateRoute() {
+    if (start[0] != null && destination[0] != null) {
+        document.getElementById("calculate-button").style.display = "none";
+        document.getElementById("calculating-wheel").style.display = "flex";
+        $.ajax({
+            url: "/route?start=" + encodeURIComponent(start[2]) + "&end=" + encodeURIComponent(destination[2]),
+            method: 'GET',
+            success: function(response) {
+
+                var json = JSON.parse(response);
+                var timeElapsed = json["timeElapsed"];
+                var start = json["startNode"];
+                var destination = json["endNode"];
+                var distance = json["distance"];
+                var geojson = json["geoJson"];
+
+                map.eachLayer(function (layer) {
+                    if (layer instanceof L.GeoJSON) {
+                        map.removeLayer(layer);
+                    }
+                });
+
+                L.geoJSON(geojson).addTo(map);
+                console.log("Time elapsed: " + timeElapsed + "ms");
+
+                document.getElementById("calculating-wheel").style.display = "none";
+                document.getElementById("reset-button").style.display = "flex";
+                document.getElementById("start-node").innerHTML = start;
+                document.getElementById("end-node").innerHTML = destination;
+                document.getElementById("distance").innerHTML = distance;
+                document.getElementById("timer").innerHTML = timeElapsed + "ms";
+
+                map.fitBounds(L.geoJSON(geojson).getBounds());
+            },
+            error: function(xhr, status, error) {
+                if (xhr.status == 400) {
+                    document.getElementById("calculating-wheel").style.display = "none";
+                    document.getElementById("no-route-found").style.display = "flex";
+                } else {
+                    displayError(xhr, error, xhr.responseText);
+                }
+            }
+        });
+    }
+}
+
+function requestLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(useUserLocation);
+    } else { 
+        displayError(null, "Geolocation is not supported by this browser.", null);
+    }
+}
+
+function useUserLocation(position) {
+    inputSelected = "start";
+    getNearestNode(position.coords.latitude, position.coords.longitude);
+}
+
+function toggleDevViewContent() {
+    if (document.getElementById("dev-view-content").style.display == "none") {
+        document.getElementById("dev-view-content").style.display = "flex";
+        document.getElementById("toggle-dev-view").style.boxShadow = "none";
+    } else {
+        document.getElementById("dev-view-content").style.display = "none";
+        document.getElementById("toggle-dev-view").style.boxShadow = "0 4px 10px rgba(0, 0, 0, 0.3)";
+    }
+}
+
+function displayError(xhr, error, message) {
+    var errorElement = document.getElementById("error");
+    var errorMessageElement = document.getElementById("error-message");
+
+    errorElement.style.display = "flex";
+    errorMessageElement.innerHTML = xhr.status + " " + error + "<br>" + message;
+
+    setTimeout(function() {
+        errorElement.style.display = "none";
+    }, 4000);
+}
+
+
+
+$(document).ready(function() {
+    let debounceTimers = {};
+
+    function updateSearchResults(role) {
+        var inputSearchBar = document.getElementById(role + "-input").value;
+        var searchResults = document.getElementById(role + "-results");
+
+        clearTimeout(debounceTimers[role]);
+        debounceTimers[role] = setTimeout(function() {
+
+            $.ajax({
+                url: "/search_place?query=" + encodeURIComponent(inputSearchBar),
+                type: 'GET',
+                success: function(response) {
+                    response = JSON.parse(response);
+                    searchResults.innerHTML = "";
+                    searchResults.style.display = "flex";
+
+                    if (response.length == 0) {
+                        searchResults.append("No results found.");
+                        return;
+                    }
+                
+                    for (var i = 0; i < response.length; i++) {
+                        var place = response[i];
+                        var lat = place["lat"].toFixed(6);
+                        var lon = place["lon"].toFixed(6);
+                        var display_name = place["display_name"];
+
+                        var placeElement = document.createElement("div");
+                        placeElement.innerHTML =  '<div onclick="getNearestNode(' + lat + ' ,' + lon + ')" style="cursor: pointer; width: 100%; display: flex; flex-direction: row; gap: 10px; margin: 10px 0;"><div style="display: flex; justify-content: left; align-items: center;"><span style="margin-right: 5px; font-size: 1.8em;" class="material-symbols-outlined align-icons-center">public</span></div><div style="display: flex; justify-content: right; align-items: center; flex: 1;"><p style="margin: 0;">' + display_name + '</p></div></div>';
+                        searchResults.append(placeElement);
+
+                    }
+                },
+                error: function(xhr, status, error) {
+                    displayError(xhr, error, xhr.responseText);
+                }
+            });
+        }, 1000);
+    } 
+
+    $('#start-input, #destination-input').on('input', function() {
+        var role = this.id.split("-")[0];
+
+        document.getElementById("start-results").style.display = "none";
+        document.getElementById("start-results").innerHTML = "";
+        document.getElementById("destination-results").style.display = "none";
+        document.getElementById("destination-results").innerHTML = "";
+
+        if (role == "start") {
+            document.getElementById("my-location").style.display = "none";
+            document.getElementById("start-search-icon").style.display = "flex";
+        } else {
+            document.getElementById("destination-search-icon").style.display = "flex";
+        }
+        
+        if (this.value === "") {
+            document.getElementById("my-location").style.display = "flex";
+            if (role == "start") {
+                document.getElementById("start-search-icon").style.display = "none";
+            } else {
+                document.getElementById("destination-search-icon").style.display = "none";
+            }
+            clearTimeout(debounceTimers[role]);
+            return;
+        } else if (this.value.includes(",") && this.value.split(",").length == 2 && !isNaN(this.value.split(",")[0]) && !isNaN(this.value.split(",")[1])) {
+            var lat = this.value.split(",")[0];
+            var lon = this.value.split(",")[1];
+            getNearestNode(lat, lon);
+            return;
+        }
+        
+        updateSearchResults(role);
+    });
+}); 
+</script>

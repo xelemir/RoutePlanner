@@ -10,7 +10,7 @@
 <p align="center">
 FMI Maps, a University of Stuttgart course project, leverages Javalin, a Java web framework, to serve both the frontend and API endpoints.
 A custom Dijkstra algorithm implementation handles route calculation, with data provided by the University of Stuttgart's <a href="https://fmi.uni-stuttgart.de/alg/research/stuff/">Institute for Formal Methods in Computer Science</a>. The graph for the Germany road network contains around 25 million nodes and 50 million edges.
-Routes are visualized using GeoJSON and the Leaflet JavaScript library. You can check out the demo <a href="https://www.gruettecloud.com/maps">here</a>.
+Routes are visualized using GeoJSON and the Leaflet JavaScript library.
 </p>
 
 ## ✨ Features <a name = "features"></a>
