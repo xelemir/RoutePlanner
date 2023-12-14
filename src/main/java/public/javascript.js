@@ -1,6 +1,18 @@
 var start = [null, null, null];
 var destination = [null, null, null];
 
+var inputSelected = destination;
+
+document.getElementById("destination-input").focus();
+
+document.getElementById("start-input").addEventListener("focus", function() {
+    inputSelected = "start";
+});
+
+document.getElementById("destination-input").addEventListener("focus", function() {
+    inputSelected = "destination";
+});
+
 
 var map = new L.map('map', {
     center: [48.783, 9.183],
@@ -26,32 +38,30 @@ function onMapClick(e) {
 
 map.on('click', onMapClick);
 
-function restart() {
-    start = [null, null, null];
-    destination = [null, null, null];
-    
-    document.getElementById("start").style.display = "none";
-    document.getElementById("start-hint").style.display = "flex";
-    document.getElementById("start-coordinates").style.display = "none";
-    document.getElementById("destination-hint").style.display = "flex";
-    document.getElementById("destination-coordinates").style.display = "none";
-    document.getElementById("route-decorator").style.display = "none";
+function showInputReset(input) {
+    if (input == "start") {
+        document.getElementById("reset-start-input").style.display = "flex";
+    } else if (input == "destination") {
+        document.getElementById("reset-destination-input").style.display = "flex";
+    } else if (input == "start-hide") {
+        document.getElementById("reset-start-input").style.display = "none";
+    } else if (input == "destination-hide") {
+        document.getElementById("reset-destination-input").style.display = "none";
+    }
+}
+
+function reset(input) {
+    document.getElementById("buttons").style.display = "none";
     document.getElementById("calculate-button").style.display = "flex";
     document.getElementById("reset-button").style.display = "none";
-    document.getElementById("calculating-wheel").style.display = "none";
     document.getElementById("no-route-found").style.display = "none";
-    document.getElementById("buttons").style.display = "none";
-    document.getElementById("restart-button").style.display = "none";
-    document.getElementById("start-node").innerHTML = "-";
-    document.getElementById("end-node").innerHTML = "-";
-    document.getElementById("distance").innerHTML = "-";
-    document.getElementById("timer").innerHTML = "-";
 
-    map.eachLayer(function (layer) {
-        if (layer instanceof L.Marker) {
-            map.removeLayer(layer);
-        }
-    });
+    document.getElementById("start-results").style.display = "none";
+    document.getElementById("start-results").innerHTML = "";
+    document.getElementById("destination-results").style.display = "none";
+    document.getElementById("destination-results").innerHTML = "";
+    document.getElementById("start-search-icon").style.display = "none";
+    document.getElementById("destination-search-icon").style.display = "none";
 
     map.eachLayer(function (layer) {
         if (layer instanceof L.GeoJSON) {
@@ -59,36 +69,98 @@ function restart() {
         }
     });
 
-    document.getElementById("search-bar").value = "";
-    document.getElementById("search-results").style.display = "none";
-    document.getElementById("close-search").style.display = "none";
+    if (input == "start") {
+        start = [null, null, null];
+        document.getElementById("start-input").value = "";
+        document.getElementById("start-input").style.display = "flex";
+        document.getElementById("start-coordinates").style.display = "none";
+        document.getElementById("reset-start-input").style.display = "none";
+
+        document.getElementById("my-location").style.display = "flex";
+
+        map.eachLayer(function (layer) {
+            if (layer instanceof L.Marker && layer.getPopup().getContent().startsWith("<b>Start</b>")) {
+                map.removeLayer(layer);
+            }
+        });
+        inputSelected = "start";
+        document.getElementById("start-node").innerHTML = "-";
+        document.getElementById("start-input").focus();
+
+    } else if (input == "destination") {
+        destination = [null, null, null];
+        document.getElementById("destination-input").value = "";
+        document.getElementById("destination-input").style.display = "flex";
+        document.getElementById("destination-coordinates").style.display = "none";
+        document.getElementById("reset-destination-input").style.display = "none";
+
+        map.eachLayer(function (layer) {
+            if (layer instanceof L.Marker && layer.getPopup().getContent().startsWith("<b>Destination</b>")) {
+                map.removeLayer(layer);
+            }
+        });
+        inputSelected = "destination";
+        document.getElementById("end-node").innerHTML = "-";
+        document.getElementById("destination-input").focus();
+
+    } else if (input == "all") {
+        reset("start");
+        reset("destination");
+
+        inputSelected = "destination";
+        document.getElementById("start").style.display = "none";
+        document.getElementById("route-decorator").style.display = "none";
+        document.getElementById("distance").innerHTML = "-";
+        document.getElementById("timer").innerHTML = "-";
+        document.getElementById("restart-button").style.display = "none";
+        document.getElementById("destination-input").focus();
+    }
 }
 
-function setCoordinates(lat, lon, node) {
-    document.getElementById("search-bar").value = "";
-    document.getElementById("close-search").style.display = "none";
-    document.getElementById("search-results").style.display = "none";
-    document.getElementById("toggle-view").style.display = "flex";
+function handleNodeResponse(lat, lon, node) {
+    document.getElementById("start-results").style.display = "none";
+    document.getElementById("start-results").innerHTML = "";
+    document.getElementById("destination-results").style.display = "none";
+    document.getElementById("destination-results").innerHTML = "";
+    document.getElementById("start-search-icon").style.display = "none";
+    document.getElementById("destination-search-icon").style.display = "none";
+    document.getElementById("restart-button").style.display = "flex";
 
-    if (destination[0] == null) {
-        destination = [lat, lon, node];
-        document.getElementById("start").style.display = "flex";
-        document.getElementById("destination-hint").style.display = "none";
-        document.getElementById("destination-coordinates").style.display = "flex";
-        document.getElementById("destination-coordinates").innerHTML = destination[0].toFixed(6) + ", " + destination[1].toFixed(6);
-        document.getElementById("route-decorator").style.display = "flex";
-        document.getElementById("restart-button").style.display = "flex";
-        document.getElementById("end-node").innerHTML = node;
-        setMarker(destination[0], destination[1], "Destination");
-    } else {
+    if (inputSelected == "start") {
         start = [lat, lon, node];
-        document.getElementById("start-hint").style.display = "none";
+        map.eachLayer(function (layer) {
+            if (layer instanceof L.Marker && layer.getPopup().getContent().startsWith("<b>Start</b>")) {
+                map.removeLayer(layer);
+            }
+        });
+        document.getElementById("my-location").style.display = "none";
+        setMarker(lat, lon, "Start");
+        document.getElementById("start-coordinates").innerHTML = lat.toFixed(6) + ", " + lon.toFixed(6);
+        document.getElementById("start-input").style.display = "none";
         document.getElementById("start-coordinates").style.display = "flex";
-        document.getElementById("start-coordinates").innerHTML = start[0].toFixed(6) + ", " + start[1].toFixed(6);
-        document.getElementById("buttons").style.display = "flex";
         document.getElementById("start-node").innerHTML = node;
-        setMarker(start[0], start[1], "Start"); 
+
+    } else {
+        inputSelected = "start";
+        destination = [lat, lon, node];
+        map.eachLayer(function (layer) {
+            if (layer instanceof L.Marker && layer.getPopup().getContent().startsWith("<b>Destination</b>")) {
+                map.removeLayer(layer);
+            }
+        });
+        setMarker(lat, lon, "Destination");
+        document.getElementById("destination-coordinates").innerHTML = lat.toFixed(6) + ", " + lon.toFixed(6);
+        document.getElementById("destination-input").style.display = "none";
+        document.getElementById("destination-coordinates").style.display = "flex";
+        document.getElementById("end-node").innerHTML = node;
     }
+
+    if (start[0] != null && destination[0] != null) {
+        document.getElementById("buttons").style.display = "flex";
+    }
+
+    document.getElementById("start").style.display = "flex";
+    document.getElementById("route-decorator").style.display = "flex";
 }
 
 function getNearestNode(lat, lon) {
@@ -101,7 +173,7 @@ function getNearestNode(lat, lon) {
                 lat = jsonData[1];
                 lon = jsonData[2];
                 node = jsonData[0];
-                setCoordinates(lat, lon, node);
+                handleNodeResponse(lat, lon, node);
             },
             error: function(xhr, status, error) {
                 if (xhr.status == 400) {
@@ -129,6 +201,12 @@ function calculateRoute() {
                 var destination = json["endNode"];
                 var distance = json["distance"];
                 var geojson = json["geoJson"];
+
+                map.eachLayer(function (layer) {
+                    if (layer instanceof L.GeoJSON) {
+                        map.removeLayer(layer);
+                    }
+                });
 
                 L.geoJSON(geojson).addTo(map);
                 console.log("Time elapsed: " + timeElapsed + "ms");
@@ -158,22 +236,13 @@ function requestLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(useUserLocation);
     } else { 
-        document.getElementById("start-hint").innerHTML = "Not supported!<br>Please click on the map.";
+        displayError(null, "Geolocation is not supported by this browser.", null);
     }
 }
 
 function useUserLocation(position) {
+    inputSelected = "start";
     getNearestNode(position.coords.latitude, position.coords.longitude);
-}
-
-function toggleView() {
-    var toggleView = document.getElementById("toggle-view");
-    if (toggleView.style.display == "none") {
-        toggleView.style.display = "flex";
-    } else {
-        toggleView.style.display = "none";
-    }
-
 }
 
 function toggleDevViewContent() {
@@ -201,27 +270,22 @@ function displayError(xhr, error, message) {
 
 
 $(document).ready(function() {
-    let debounceTimer;
+    let debounceTimers = {};
 
-    function updateSearchResults() {
-        var inputSearchBar = $('#search-bar').val();
-        var searchResults = $('#search-results');
-        var closeSearch = $('#close-search');
-        if (inputSearchBar == "") {
-            return;
-        }
-        searchResults.css("display", "flex");
-        searchResults.html("Searching...");
-        closeSearch.css("display", "flex");
+    function updateSearchResults(role) {
+        var inputSearchBar = document.getElementById(role + "-input").value;
+        var searchResults = document.getElementById(role + "-results");
 
-        clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(function() {
+        clearTimeout(debounceTimers[role]);
+        debounceTimers[role] = setTimeout(function() {
+
             $.ajax({
                 url: "/search_place?query=" + encodeURIComponent(inputSearchBar),
                 type: 'GET',
                 success: function(response) {
                     response = JSON.parse(response);
-                    searchResults.empty();
+                    searchResults.innerHTML = "";
+                    searchResults.style.display = "flex";
 
                     if (response.length == 0) {
                         searchResults.append("No results found.");
@@ -235,7 +299,7 @@ $(document).ready(function() {
                         var display_name = place["display_name"];
 
                         var placeElement = document.createElement("div");
-                        placeElement.innerHTML =  '<div onclick="getNearestNode(' + lat + ' ,' + lon + ')" style="cursor: pointer; width: 100%; display: flex; flex-direction: row; gap: 10px; margin: 10px 0;"><div style="display: flex; justify-content: left; align-items: center;"><span style="margin-right: 15px;" class="material-symbols-outlined align-icons-center">public</span><p>' + display_name + '</p></div><div style="display: flex; justify-content: right; align-items: center; flex: 1;">' + lat + ', ' + lon + '</div><div style="display: none; justify-content: right; align-items: center; flex: 1;"></div>'
+                        placeElement.innerHTML =  '<div onclick="getNearestNode(' + lat + ' ,' + lon + ')" style="cursor: pointer; width: 100%; display: flex; flex-direction: row; gap: 10px; margin: 10px 0;"><div style="display: flex; justify-content: left; align-items: center;"><span style="margin-right: 5px; font-size: 1.8em;" class="material-symbols-outlined align-icons-center">public</span></div><div style="display: flex; justify-content: right; align-items: center; flex: 1;"><p style="margin: 0;">' + display_name + '</p></div></div>';
                         searchResults.append(placeElement);
 
                     }
@@ -247,8 +311,29 @@ $(document).ready(function() {
         }, 1000);
     } 
 
-    $('#search-bar').on('input', function() {
-        if (this.value == "") {
+    $('#start-input, #destination-input').on('input', function() {
+        var role = this.id.split("-")[0];
+
+        document.getElementById("start-results").style.display = "none";
+        document.getElementById("start-results").innerHTML = "";
+        document.getElementById("destination-results").style.display = "none";
+        document.getElementById("destination-results").innerHTML = "";
+
+        if (role == "start") {
+            document.getElementById("my-location").style.display = "none";
+            document.getElementById("start-search-icon").style.display = "flex";
+        } else {
+            document.getElementById("destination-search-icon").style.display = "flex";
+        }
+        
+        if (this.value === "") {
+            document.getElementById("my-location").style.display = "flex";
+            if (role == "start") {
+                document.getElementById("start-search-icon").style.display = "none";
+            } else {
+                document.getElementById("destination-search-icon").style.display = "none";
+            }
+            clearTimeout(debounceTimers[role]);
             return;
         } else if (this.value.includes(",") && this.value.split(",").length == 2 && !isNaN(this.value.split(",")[0]) && !isNaN(this.value.split(",")[1])) {
             var lat = this.value.split(",")[0];
@@ -256,7 +341,7 @@ $(document).ready(function() {
             getNearestNode(lat, lon);
             return;
         }
-        clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(updateSearchResults, 1000);
+        
+        updateSearchResults(role);
     });
-}); 
+});
