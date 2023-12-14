@@ -96,20 +96,11 @@
         <button id="restart-button" onclick="reset('all')" style="background-color: transparent; border: none; cursor: pointer; position: absolute; top: 25px; right: 22px; display: none; color: var(--text-color);">
             <span class="material-symbols-outlined align-icons-center">refresh</span>
         </button>
-        <!--<hr style="border: 1px solid var(--box-shadow-color); border-radius: 5px; margin: 20px 0px; margin-top: 10px;">-->
         <div style="width: 100%; flex-direction: column; gap: 5px; margin-top: 25px;">
             <div id="start" style="width: 100%; display: none; flex-direction: row; gap: 20px;">
                 <div style="display: flex; justify-content: left; align-items: center;">
                     <span style="margin-right: 5px; font-size: 1.8em;" class="material-symbols-outlined align-icons-center">directions_car</span>
                 </div>
-                <!--<div id="start-hint" style="display: flex; justify-content: right; align-items: center; flex: 1; flex-direction: row;">
-                    Click on map or
-                    <button onclick="requestLocation()" style="background-color: var(--primary-color); color: var(--white-color); border-radius: 30px; padding: 2px 10px; border: none; cursor: pointer; margin: 0px 5px;">
-                        My Location
-                    </button>
-                </div>
-                <div id="start-coordinates" style="display: none; justify-content: right; align-items: center; flex: 1;">
-                </div>-->
                 <input id="start-input" type="text" class="login-input" autocomplete="off" placeholder="Choose start or use" style="display: flex; flex: 1; font-size: 1em; height: 40px; margin: 0; border-radius: 20px; padding-left: 15px; padding-right: 50px; color: var(--text-color); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);" required>
                 <div id="my-location" onclick="requestLocation()" style="position: absolute; right: 26px; margin-top: 5px; display: flex; justify-content: right; align-items: center; flex: 1; cursor: pointer; color: var(--white-color); background-color: var(--primary-color); border-radius: 25px; height: 30px; padding: 0px 10px;">
                 My Location
@@ -130,11 +121,6 @@
                 <div style="display: flex; justify-content: left; align-items: center;">
                     <span style="margin-right: 5px; font-size: 1.8em" class="material-symbols-outlined align-icons-center">location_on</span>
                 </div>
-                <!--<div id="destination-hint" style="display: flex; justify-content: right; align-items: center; flex: 1;">
-                    Click on the map
-                </div>
-                <div id="destination-coordinates" style="display: none; justify-content: right; align-items: center; flex: 1;">
-                </div>-->
                 <input id="destination-input" type="text" class="login-input" autocomplete="off" placeholder="Search destination or click map" style="display: flex; flex: 1; font-size: 1em; height: 40px; margin: 0; border-radius: 30px; padding-left: 15px; padding-right: 50px; color: var(--text-color); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);" required>
                 <div id="destination-search-icon" style="position: absolute; right: 26px; margin-top: 5px; display: none; justify-content: center; align-items: center; flex: 1; cursor: pointer; color: var(--white-color); background-color: var(--primary-color); border-radius: 25px; height: 30px; width: 30px; padding: 0px 10px;" onmouseover="showInputReset('start')" onmouseleave="showInputReset('start-hide')">
                     <span style="color: var(--white-color); font-size: 1.3em;" class="material-symbols-outlined align-icons-center">search</span>

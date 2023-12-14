@@ -50,7 +50,6 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            /*text-align: left;*/
         }
     
         .phone {
@@ -66,8 +65,8 @@
     
         @media (max-width: 768px) {
             .dynamic-container {
-                flex-direction: column; /* Stack boxes on top of each other */
-                align-items: center; /* Horizontally center the stacked boxes */
+                flex-direction: column;
+                align-items: center;
             }
     
             .box {
@@ -109,7 +108,7 @@
                     </div>
                 </div>
                 <div class="box">
-                    <img class="mac product-renders" src="https://www.gruettecloud.com/static/renders/routeplanner/routeLight.png" alt="FMI Maps">
+                    <img class="mac product-renders" src="https://www.gruettecloud.com/static/renders/routeplanner/MacBookProRoute.png" alt="FMI Maps">
                 </div>
             </div>
             <div style="position: absolute; bottom: 0; left: 0; width: 100%; display: flex; justify-content: center; align-items: center; padding: 1.5vh;">
@@ -120,12 +119,12 @@
         <div class="section" data-anchor="section2">
             <div class="dynamic-container">
                 <div class="box">
-                    <img class="mac product-renders" src="https://www.gruettecloud.com/static/renders/routeplanner/routeLight.png" alt="FMI Maps">
+                    <img class="mac product-renders" src="https://www.gruettecloud.com/static/renders/routeplanner/MacBookProRoute.png" alt="FMI Maps">
                 </div>
                 <div class="box text" style="text-wrap: balance;">
                     <h1 style="text-align: left;">Find Routes.<br>Blazingly Fast.</h1>
-                    <p style="color: #000000;">FMI Maps calculates Your route to the University within milliseconds</p>
-                    <p style="color: #000000;">In fact, it's so speedy, You'll probably reach Your Destination before the S-Bahn Stuttgart can even leave the station.</p>
+                    <p style="color: #000000;">FMI Maps calculates Your route to the university within milliseconds</p>
+                    <p style="color: #000000;">In fact, it's so speedy, You'll probably reach Your destination before the S-Bahn Stuttgart can even leave the station.</p>
                 </div>
             </div>
         </div>
@@ -137,19 +136,16 @@
                     <p style="color: #000000; text-wrap: balance;">
                         Click the map to set Your
                         <span class="material-symbols-outlined align-icons-center" style="font-size: 1.2em;">directions_car</span>
-                        Start and 
+                        start and 
                         <span class="material-symbols-outlined align-icons-center" style="font-size: 1.2em;">location_on</span>
-                        Destination.<br>Or find place in Germany, even home addresses, using the 
-                        <span style="background-color: var(--primary-color); color: #FFFFFF; border-radius: 50%; height: 16px; margin-right: 5px; padding: 0 1px;">
-                            <span class="material-symbols-outlined align-icons-center" style="font-size: 1.0em; ">search</span>
-                        </span> search bar.<br>As a bonus, You may use 
+                        destination.<br>Or find place in Germany, even home addresses, using the search bar.<br>As a bonus, You can use 
                         <span style="background-color: var(--primary-color); color: #FFFFFF; padding: 4px 10px; border-radius: 30px; font-size: 0.8em;">My Location</span> as a starting point.
                     </p>
                     
                     
                 </div>
                 <div class="box">
-                    <img class="mac product-renders" src="https://www.gruettecloud.com/static/renders/routeplanner/addressLight.png" alt="FMI Maps">
+                    <img class="mac product-renders" src="https://www.gruettecloud.com/static/renders/routeplanner/iMacSearch.png" alt="FMI Maps">
                 </div>
             </div>
         </div>
@@ -157,7 +153,7 @@
         <div class="section" data-anchor="section4">
             <div class="dynamic-container">
                 <div class="box">
-                    <img class="mac product-renders" src="https://www.gruettecloud.com/static/renders/routeplanner/routeDark.png" alt="FMI Maps">
+                    <img class="mac product-renders" src="https://www.gruettecloud.com/static/renders/routeplanner/MacBookProRouteDark.png" alt="FMI Maps">
                 </div>
                 <div class="box text" style="text-wrap: balance;">
                     <h1>For The Devs.</h1>
@@ -172,8 +168,8 @@
                 <div class="box text" style="text-wrap: balance; padding: 35px;">
                     <h1>Behind The Map.</h1>
                     <p style="color: #FFFFFF; font-size: 1.2em;">
-                        FMI Maps, a University of Stuttgart course project, leverages Javalin, a Java web framework, to serve both the frontend and API endpoints.
-                        Custom Dijkstra algorithm implementation handles route calculation, with data sourced from the University of Stuttgart's Institute for Formal Methods in Computer Science.
+                        FMI Maps, a University of Stuttgart course project, utilizes Javalin, a Java web framework, to serve both the frontend and API endpoints.
+                        A custom Dijkstra algorithm implementation handles route calculation, with data sourced from the University of Stuttgart's Institute for Formal Methods in Computer Science.
                         Routes are visualized using GeoJSON and the Leaflet JavaScript library. FMI Maps was a collaborative effort involving:
                     </p>
                     <div style="display: flex; justify-content: space-evenly; width: 100%; margin-top: 70px;">

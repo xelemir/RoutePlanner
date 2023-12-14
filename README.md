@@ -1,6 +1,6 @@
 <p align="center">
   <a href="" rel="noopener">
-    <img width="600px" src="https://www.gruettecloud.com/static/renders/routeplanner/routeLight.png" style="border-radius: 20px;" alt="FMI Maps">
+    <img width="600px" src="https://www.gruettecloud.com/static/renders/routeplanner/MacBookProRouteWithBackground.png" style="border-radius: 20px;" alt="FMI Maps">
   </a>
 </p>
 <br>
@@ -45,8 +45,11 @@ Routes are visualized using GeoJSON and the Leaflet JavaScript library.
 ## 📷 Images <a name = "images"></a>
 
 <div align="center">
-    <img width="49%" src="https://www.gruettecloud.com/static/renders/routeplanner/routeDark.png" style="border-radius: 20px;" alt="FMI Maps">
-    <img width="49%" src="https://www.gruettecloud.com/static/renders/routeplanner/addressLight.png" style="border-radius: 20px;" alt="FMI Maps">
+    <img width="49%" src="https://www.gruettecloud.com/static/renders/routeplanner/StudioDisplayMisc.png" style="border-radius: 20px;" alt="FMI Maps">
+    <img width="49%" src="https://www.gruettecloud.com/static/renders/routeplanner/iMacSearch.png" style="border-radius: 20px;" alt="FMI Maps">
+</div>
+<div align="center">
+    <img width="70%" src="https://www.gruettecloud.com/static/renders/routeplanner/MacBookProRouteDark.png" style="border-radius: 20px;" alt="FMI Maps">
 </div>
 
 ## 🔧 Configuration <a name = "configuration"></a>
