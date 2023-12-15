@@ -153,14 +153,21 @@ function handleNodeResponse(lat, lon, node) {
         document.getElementById("destination-input").style.display = "none";
         document.getElementById("destination-coordinates").style.display = "flex";
         document.getElementById("end-node").innerHTML = node;
+
+        document.getElementById("start").style.display = "flex";
+        document.getElementById("route-decorator").style.display = "flex";
+        document.getElementById("start-input").focus();
     }
 
     if (start[0] != null && destination[0] != null) {
         document.getElementById("buttons").style.display = "flex";
     }
 
-    document.getElementById("start").style.display = "flex";
-    document.getElementById("route-decorator").style.display = "flex";
+    
+
+    if (inputSelected == "start") {
+        
+    }
 }
 
 function getNearestNode(lat, lon) {
