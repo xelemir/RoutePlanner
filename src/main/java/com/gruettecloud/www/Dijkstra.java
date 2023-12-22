@@ -55,6 +55,10 @@ public class Dijkstra {
 
         boolean targetNodeFound = false;
 
+        // isInHeap is used to check if a node is in the heap
+        boolean[] isInHeap = new boolean[numNodes];
+        Arrays.fill(isInHeap, false);
+
         while (heapSize > 0 && !targetNodeFound) {
             int u = minHeap[0];
             visited[u] = true;
@@ -71,16 +75,30 @@ public class Dijkstra {
                     int v = edges[j][1];
                     int weight = edges[j][2];
                     int newDistance = distances[u] + weight;
+
                     if (!visited[v] && newDistance < distances[v]) {
                         distances[v] = newDistance;
                         previousNodes[v] = u;
+            
+                        if (isInHeap[v]) {
+                            // v is in heap, so search for it and bubble it up to update its distance
+                            int pos = -1;
+                            for (int k = 0; k < heapSize; k++) {
+                                if (minHeap[k] == v) {
+                                    pos = k;
+                                    break;
+                                }
+                            }
+                            bubbleUp(minHeap, distances, pos);
 
-                        if (heapSize == minHeap.length) {
-                            minHeap = Arrays.copyOf(minHeap, minHeap.length * 2);
+                        } else {
+                            // v is not in heap, so add it to the heap
+                            minHeap[heapSize] = v;
+                            heapSize++;
+                            isInHeap[v] = true;
+                            bubbleUp(minHeap, distances, newDistance);
+
                         }
-                        minHeap[heapSize] = v;
-                        heapSize++;
-                        bubbleUp(minHeap, distances, heapSize - 1);
                     }
 
                     if (v == end) {
@@ -91,8 +109,8 @@ public class Dijkstra {
             }
         }
 
+        List<Integer> route = new ArrayList<>();
         if (targetNodeFound) {
-            List<Integer> route = new ArrayList<>();
             int currentNode = end;
             while (currentNode != -1) {
                 route.add(currentNode);
@@ -102,7 +120,7 @@ public class Dijkstra {
 
             int shortestDistance = distances[end];
             if (shortestDistance == Integer.MAX_VALUE) {
-                return null;
+                return route;
             }
 
             route.add(shortestDistance);
@@ -115,7 +133,7 @@ public class Dijkstra {
                 this.start = start;
             }
         }
-        return null;
+        return route;
     }
 
     /**
@@ -192,20 +210,16 @@ public class Dijkstra {
         }
     }
 
+
     public static void main(String[] args) {
         DataStructures ds = new DataStructures("germany.fmi");
         Dijkstra dijkstra = new Dijkstra(ds);
+        long startTime = System.currentTimeMillis();
+        dijkstra.shortestPath(638394, -1);
+        long endTime = System.currentTimeMillis();
+        System.out.println("Time: " + (endTime - startTime) + "ms");
 
-
-        //int startNode = 480860;
-        //int endNode = 480861;
-        //int thirdNode = 480862;
-        // 146
-        // 382
         
-        List<Integer> route = dijkstra.shortestPath(8371825, 16743651);
-
-        System.out.println(route.get(route.size() - 1));
 
     }
 }
