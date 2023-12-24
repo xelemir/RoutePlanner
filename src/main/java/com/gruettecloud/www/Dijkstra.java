@@ -96,7 +96,7 @@ public class Dijkstra {
                             minHeap[heapSize] = v;
                             heapSize++;
                             isInHeap[v] = true;
-                            bubbleUp(minHeap, distances, newDistance);
+                            bubbleUp(minHeap, distances, heapSize - 1);
 
                         }
                     }
