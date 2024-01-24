@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="icon" href="https://www.gruettecloud.com/static/gruettecloud_logo.png">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.1.2/fullpage.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.1.2/fullpage.min.js"></script>
     <style>
 
 
@@ -162,58 +164,18 @@
                 </div>
             </div>
         </div>
-
-        <div class="section" data-anchor="section5">
-            <div class="dynamic-container">
-                <div class="box text" style="text-wrap: balance; padding: 35px;">
-                    <h1>Behind The Map.</h1>
-                    <p style="color: #FFFFFF; font-size: 1.2em;">
-                        FMI Maps, a University of Stuttgart course project, utilizes Javalin, a Java web framework, to serve both the frontend and API endpoints.
-                        A custom Dijkstra algorithm implementation handles route calculation, with data sourced from the University of Stuttgart's Institute for Formal Methods in Computer Science.
-                        Routes are visualized using GeoJSON and the Leaflet JavaScript library. FMI Maps was a collaborative effort involving:
-                    </p>
-                    <div style="display: flex; justify-content: space-evenly; width: 100%; margin-top: 70px;">
-                        <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
-                            <img src="https://www.gruettecloud.com/static/profile_pictures/purple.png" alt="Xiwen" style="height: 100px; width: 100px; border-radius: 50%;">
-                            <h2 style="color: var(--white-color);">Xiwen Feng</h2>
-                        </div>
-                        <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
-                            <img src="https://www.gruettecloud.com/static/profile_pictures/83773530.png" alt="Xiwen" style="height: 100px; width: 100px; border-radius: 50%;">
-                            <h2 style="color: var(--white-color);">Jan Grüttefien</h2>
-                        </div>
-                        <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
-                            <img src="https://www.gruettecloud.com/static/profile_pictures/yellow.png" alt="Xiwen" style="height: 100px; width: 100px; border-radius: 50%;">
-                            <h2 style="color: var(--white-color);">Knut Hertag</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="box notOnMobile">
-                    <img class="code product-renders" src="https://www.gruettecloud.com/static/renders/routeplanner/code.png" alt="FMI Maps Code">
-                </div>
-            </div>
-        </div>
     </div>
 </body>
-
 </html>
 
-<!-- Include fullPage.js library -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.1.2/fullpage.min.js"></script>
-
 <script>
-    // Initialize fullPage.js
     new fullpage('#fullpage', {
-        // Options
-        sectionsColor: ['#FFFFFF', '#F2F2F2', '#FFFFFF', '#1B1B1B', '#212121'],
-        anchors: ['section1', 'section2', 'section3', 'section4', 'section5'], // Set anchor names for sections
-        autoScrolling: true, // Enable auto-scrolling
-        scrollBar: false, // Hide the scrollbar
-        navigation: false, // Show navigation dots
-        navigationPosition: 'right', // Position of navigation dots
-        scrollingSpeed: 700, // Scrolling speed in ms
-
-        afterLoad: function(origin, destination, direction) {
-            // Add any custom code to be executed after each section loads
-        }
+        sectionsColor: ['#FFFFFF', '#F2F2F2', '#FFFFFF', '#1B1B1B'],
+        anchors: ['section1', 'section2', 'section3', 'section4'],
+        autoScrolling: true,
+        scrollBar: false,
+        navigation: false,
+        navigationPosition: 'right',
+        scrollingSpeed: 700,
     });
 </script>
