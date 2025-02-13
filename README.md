@@ -1,5 +1,4 @@
-<img src="https://jan.gruettefien.com/fmi_maps.png" alt="FMI Maps">
-<br>
+<img src="src/main/java/public/fmi_maps.png" alt="FMI Maps">
 
 <h1 align="center">FMI Maps</h1>
 
@@ -36,7 +35,7 @@ Routes are visualized using MAPBOX GL JS. When a route is calculated, the fronte
 ## 📷 Stuttgart <a name = "images"></a>
 
 
-<img src="https://jan.gruettefien.com/fmi_maps_stuttgart.png" style="border-radius: 20px;" alt="Stuttgart, just because the screenshots looks so good :)">
+<img src="src/main/java/public/fmi_maps_stuttgart.png" style="border-radius: 20px;" alt="Stuttgart, just because the screenshots looks so good :)">
 
 
 ## 🔧 Configuration <a name = "configuration"></a>
