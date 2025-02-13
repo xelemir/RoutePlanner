@@ -1,180 +1,213 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!--<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" charset="UTF-8">
-
-    <title>Discover | FMI Maps</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,700,0,200" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" charset="utf-8">
+	
+	<title>FMI Maps</title>
+    <link href="https://www.gruettecloud.com/static/gruettecloud_logo.png" rel="icon" type="image/x-icon">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,700,0,200">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap">
     <link rel="stylesheet" href="https://www.gruettecloud.com/static/stylesheet.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-    <link rel="icon" href="https://www.gruettecloud.com/static/gruettecloud_logo.png">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.1.2/fullpage.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.9.3/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.9.3/mapbox-gl.js"></script>
+    <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.1.2/fullpage.min.js"></script>
-    <style>
-
+	<style>
+		html, body {
+			height: 100%;
+            width: 100%;
+			margin: 0;
+            padding: 0;
+		}
 
         h1 {
             font-family: 'Montserrat', sans-serif;
             color: var(--primary-color);
-            margin-bottom: 60px;
-            font-size: 5em;
+            margin-bottom: 10px;
         }
 
         * {
             font-family: 'Nunito', sans-serif;
         }
 
-        p {
-            color: var(--text-color);
-            font-size: 1.5em;
+        #map {
+            cursor: crosshair;
         }
 
-        .dynamic-container {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
+        .nav-view {
+            width: 400px;
+            margin: 10px;
         }
-    
-        .box {
-            flex: 1;
-            text-align: center;
+
+        .dev-view {
+            display: flex;
+            width: 350px;
+            margin: 10px;
+        }
+
+        .error-message {
+            position: absolute;
+            z-index: 3;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: var(--red);
+            color: var(--white-color);
+            border-radius: 30px;
             padding: 20px;
-            height: auto;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .text {
-            display: flex;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
             flex-direction: column;
-            justify-content: center;
+            justify-content: space-between;
+            width: 600px;
+            max-width: 80vw;
+            max-height: 60svh;
+            text-align: center;
         }
-    
-        .phone {
-            max-height: 60vh;
-            width: auto;
+
+        input[type="text"],
+        .coordinates {
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            flex: 1;
+            font-size: 1em;
+            height: 40px;
+            margin: 0;
+            border-radius: 30px;
+            padding-left: 45px;
+            color: var(--text-color);
+            background-color: var(--background-tile-color);
         }
 
-        .code {
-            max-height: calc(90svh - 20px);
-            height: auto;
-            border-radius: 10px;
+        input[type="text"]:focus {
+            outline: none;
         }
-    
-        @media (max-width: 768px) {
-            .dynamic-container {
-                flex-direction: column;
-                align-items: center;
-            }
-    
-            .box {
-                width: 100%;
+
+        @media only screen and (max-width: 800px) {
+            .nav-view {
+                width: calc(100vw - 20px);
             }
 
-            .phone {
-                max-height: 40vh;
-                width: auto;
-            }
-
-            .code {
-                max-height: 50svh;
-                height: auto;
-            }
-
-            .notOnMobile {
+            .dev-view {
                 display: none;
             }
         }
 
-    </style>
+	</style>
+
+	
 </head>
 <body>
 
-    <div id="fullpage">
-        <div class="section" data-anchor="section1">
-            <div class="dynamic-container">
-                <div class="box text" style="text-wrap: balance;">
-                    <div id="default" style="display: block; text-align: center;">
-                        <h1 style="margin-bottom: 30px; margin-top: -30px;">Discover FMI Maps</h1>
-                        <p style="color: #000000">A fast, Java-based Route Planner for Germany.</p>
-                        <div style="background-color: var(--primary-color); height: 50px; width: 300px; border-radius: 30px; display: flex; justify-content: center; align-items: center; margin: 60px auto; cursor: pointer;">
-                            <a href="/map.html" style="text-decoration: none; color: #FFFFFF;">
-                                <span class="material-symbols-outlined align-icons-center" style="margin-right: 7px;">map</span>
-                                Open Map
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="box">
-                    <img class="mac product-renders" src="https://www.gruettecloud.com/static/renders/routeplanner/MacBookProRoute.png" alt="FMI Maps">
-                </div>
-            </div>
-            <div style="position: absolute; bottom: 0; left: 0; width: 100%; display: flex; justify-content: center; align-items: center; padding: 1.5vh;">
-                <a href="#section2" class="material-symbols-outlined" style="color: var(--text-color); text-decoration: none;">expand_more</a>
-            </div>
-        </div>
 
-        <div class="section" data-anchor="section2">
-            <div class="dynamic-container">
-                <div class="box">
-                    <img class="mac product-renders" src="https://www.gruettecloud.com/static/renders/routeplanner/MacBookProRoute.png" alt="FMI Maps">
-                </div>
-                <div class="box text" style="text-wrap: balance;">
-                    <h1 style="text-align: left;">Find Routes.<br>Blazingly Fast.</h1>
-                    <p style="color: #000000; padding: 0 50px;">FMI Maps calculates Your route to the university within milliseconds.
-                    In fact, it's so speedy, You'll probably reach Your destination before the S-Bahn Stuttgart can even leave the station.</p>
-                </div>
-            </div>
-        </div>
 
-        <div class="section" data-anchor="section3">
-            <div class="dynamic-container">
-                <div class="box text" style="text-wrap: balance;">
-                    <h1>Search Places.</h1>
-                    <p style="color: #000000; text-wrap: balance; padding: 0 50px;">
-                        Click the map to set Your
-                        <span class="material-symbols-outlined align-icons-center" style="font-size: 1.2em;">directions_car</span>
-                        start and 
-                        <span class="material-symbols-outlined align-icons-center" style="font-size: 1.2em;">location_on</span>
-                        destination. Or search for any place in Germany using the search bar. As a bonus, You can use 
-                        <span style="background-color: var(--primary-color); color: #FFFFFF; padding: 4px 10px; border-radius: 30px; font-size: 0.8em;">My Location</span> as a starting point.
-                    </p>
-                    
-                    
-                </div>
-                <div class="box">
-                    <img class="mac product-renders" src="https://www.gruettecloud.com/static/renders/routeplanner/iMacSearch.png" alt="FMI Maps">
-                </div>
-            </div>
-        </div>
 
-        <div class="section" data-anchor="section4">
-            <div class="dynamic-container">
-                <div class="box">
-                    <img class="mac product-renders" src="https://www.gruettecloud.com/static/renders/routeplanner/MacBookProRouteDark.png" alt="FMI Maps">
+<div class="nav-view" style="position: absolute; z-index: 2;">
+    <div id="toggle-view" style="background-color: var(--background-color); max-height: 80svh; border-radius: 30px; padding: 20px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); flex-direction: column; justify-content: space-between;">
+        <h1>FMI Maps</h1>
+        <button id="restart-button" onclick="reset('all')" style="background-color: transparent; border: none; cursor: pointer; position: absolute; top: 25px; right: 22px; display: none; color: var(--text-color);">
+            <span class="material-symbols-outlined align-icons-center">refresh</span>
+        </button>
+        <div style="width: 100%; flex-direction: column; gap: 5px; margin-top: 25px;">
+            <div id="start" style="width: 100%; display: none; flex-direction: row; gap: 20px;">
+                <div style="display: flex; justify-content: left; align-items: center; position: absolute;">
+                    <span style="margin-left: 10px; margin-top: 6px; font-size: 1.5em;" class="material-symbols-outlined align-icons-center">directions_car</span>
                 </div>
-                <div class="box text" style="text-wrap: balance;">
-                    <h1>For The Devs.</h1>
-                    <p style="color: #FFFFFF; padding: 0 50px;">You can toggle <span class="material-symbols-outlined align-icons-center">query_stats</span> DevView to get some insights into the route calculation. And most importantly, we added a dark mode.</p>
+                <input id="start-input" style="padding-right: 50px;" type="text" autocomplete="off" placeholder="Choose Start Location" required>
+                <div id="my-location" onclick="requestLocation()" style="position: absolute; right: 26px; margin-top: 5px; display: flex; justify-content: center; align-items: center; flex: 1; cursor: pointer; color: var(--white-color); background-color: var(--primary-color); border-radius: 25px; height: 30px; width: 30px; padding: 0px 10px; cursor: pointer;" onmouseover="if (document.getElementById('start-input').value) {showInputReset('start')}" onmouseleave="if (document.getElementById('start-input').value) {showInputReset('start-hide')}">
+                    <span style="color: var(--white-color); font-size: 1.2em;" class="material-symbols-outlined align-icons-center">location_on</span>
+                </div>
+                <div id="reset-start-input" onclick="reset('start')" style="position: absolute; right: 26px; margin-top: 5px; display: none; justify-content: center; align-items: center; flex: 1; cursor: pointer; color: var(--white-color); background-color: var(--red); border-radius: 25px; height: 30px; width: 30px; padding: 0px 10px; cursor: pointer;" onmouseover="if (document.getElementById('start-input').value) {showInputReset('start')}" onmouseleave="if (document.getElementById('start-input').value) {showInputReset('start-hide')}">
+                    <span style="color: var(--white-color);" class="material-symbols-outlined align-icons-center">close</span>
+                </div>
+                <div id="start-coordinates" class="coordinates" style="display: none;" onmouseover="showInputReset('start')" onmouseleave="showInputReset('start-hide')"></div>
+            </div>
+            <div id="start-results" style="border-radius: 20px; padding: 10px; padding-top: 15px; gap: 10px; display: none; flex-direction: column; justify-content: space-between;"></div>
+            <div id="route-decorator" style="display: none; justify-content: left; align-items: center;">
+                <span style="margin: 5px 0; margin-left: 12px; font-size: 1.2em; opacity: 0.8;" class="material-symbols-outlined align-icons-center">more_vert</span>
+            </div>
+            <div id="destination" style="width: 100%; display: flex; flex-direction: row; gap: 20px;">
+                <div style="display: flex; justify-content: left; align-items: center; position: absolute;">
+                    <span id="destination-icon" style="margin-left: 10px; margin-top: 8px; font-size: 1.5em;" class="material-symbols-outlined align-icons-center">search</span>
+                </div>
+                <input id="destination-input" type="text" autocomplete="off" placeholder="Search Destination or Click Map" required>
+                <div id="reset-destination-input" onclick="reset('destination')" style="position: absolute; right: 26px; margin-top: 5px; display: none; justify-content: center; align-items: center; flex: 1; cursor: pointer; color: var(--white-color); background-color: var(--red); border-radius: 25px; height: 30px; width: 30px; padding: 0px 10px;" onmouseover="showInputReset('destination')" onmouseleave="showInputReset('destination-hide')">
+                    <span style="color: var(--white-color);" class="material-symbols-outlined align-icons-center">close</span>
+                </div>
+                <div id="destination-coordinates" class="coordinates" style="display: none;" onmouseover="showInputReset('destination')" onmouseleave="showInputReset('destination-hide')"></div>
+            </div>
+            <div id="destination-results" style="border-radius: 20px; padding: 10px; padding-top: 15px; gap: 10px; display: none; flex-direction: column; justify-content: space-between;"></div>
+            <div id="buttons" style="display: none; justify-content: left; align-items: center; margin-top: 20px;">
+                <button id="calculate-button" onclick="calculateRoute()" style="background-color: var(--primary-color); color: var(--white-color); border-radius: 30px; padding: 2px 10px; border: none; cursor: pointer; display: flex; justify-content: center; align-items: center; flex: 1; height: 40px;">
+                    <span style="margin-right: 5px; color: var(--white-color);" class="material-symbols-outlined align-icons-center">directions</span> Get Directions
+                </button>
+                <div id="no-route-found" style="display: none; justify-content: center; align-items: center; flex: 1; height: 40px;">
+                    <span style="margin-right: 5px; color: var(--red);" class="material-symbols-outlined align-icons-center">warning</span>
+                    <p style="color: var(--red);">No Route Found</p>
+                </div>
+                <button id="reset-button" onclick="goIn3DThroughRoute()" style="background-color: var(--primary-color); color: var(--white-color); border-radius: 30px; padding: 2px 10px; border: none; cursor: pointer; display: none; justify-content: center; align-items: center; flex: 1; height: 40px;">
+                    <span style="margin-right: 5px; color: var(--white-color);" class="material-symbols-outlined align-icons-center">3d_rotation</span> View in 3D
+                </button>
+                <div id="calculating-wheel" style="display: none; justify-content: center; align-items: center; flex: 1; height: 40px;">
+                    <i class="fa fa-spinner fa-spin" style="font-size: 1.2em; color: var(--primary-color); margin-right: 5px;"></i>
+                    <p style="color: var(--primary-color);">Calculating Route</p>
                 </div>
             </div>
         </div>
     </div>
+</div>
+<div class="dev-view" style="position: absolute; z-index: 2; right: 0px; align-items: flex-end; flex-direction: column;">
+    <div style="display: flex; gap: 10px; margin-bottom: 10px; position: absolute;">
+        <div id="toggle-dev-view" onclick="toggleDevViewContent()" style="cursor: pointer; font-size: 1em; width: 50px; height: 50px; margin: 0; border-radius: 50%; background-color: var(--background-color); color: var(--text-color); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); display: flex; justify-content: center; align-items: center;">
+            <span class="material-symbols-outlined align-icons-center">query_stats</span>
+        </div>
+    </div>
+    <div id="dev-view-content" style="display: none; width: 350px; gap: 15px; background-color: var(--background-color); max-height: 80svh; border-radius: 30px; padding: 20px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); flex-direction: column; justify-content: space-between;">
+        <h1>DevView</h1>
+        <hr style="border: 1px solid var(--box-shadow-color); border-radius: 5px; margin-top: -10px;">
+        <div style="width: 100%; display: flex; flex-direction: row; gap: 10px;">
+            <div style="display: flex; justify-content: left; align-items: center;">
+                <span style="margin-right: 5px;" class="material-symbols-outlined align-icons-center">start</span>
+                <p>Start Node</p>
+            </div>
+            <div id="start-node" style="display: flex; justify-content: right; align-items: center; flex: 1;">-</div>
+        </div>
+        <div style="width: 100%; display: flex; flex-direction: row; gap: 10px;">
+            <div style="display: flex; justify-content: left; align-items: center;">
+                <span style="margin-right: 5px;" class="material-symbols-outlined align-icons-center">flag</span>
+                <p>End Node</p>
+            </div>
+            <div id="end-node" style="display: flex; justify-content: right; align-items: center; flex: 1;">-</div>
+        </div>
+        <div style="width: 100%; display: flex; flex-direction: row; gap: 10px;">
+            <div style="display: flex; justify-content: left; align-items: center;">
+                <span style="margin-right: 5px;" class="material-symbols-outlined align-icons-center">width</span>
+                <p>Distance</p>
+            </div>
+            <div id="distance" style="display: flex; justify-content: right; align-items: center; flex: 1;">-</div>
+        </div>
+        <div style="width: 100%; display: flex; flex-direction: row; gap: 10px;">
+            <div style="display: flex; justify-content: left; align-items: center;">
+                <span style="margin-right: 5px;" class="material-symbols-outlined align-icons-center">speed</span>
+                <p>Calculation Speed</p>
+            </div>
+            <div id="timer" style="display: flex; justify-content: right; align-items: center; flex: 1;">-</div>
+        </div>
+    </div>
+</div>
+<div id="error" class="error-message animate__animated animate__fadeIn" style="display: none;">
+    <h2 style="margin-bottom: 30px;">Error</h2>
+    <p id="error-message"></p>
+</div>
+
+<div id="map" style="width: 100vw; height: 100svh; z-index: 1;"></div>
+
 </body>
 </html>
 
-<script>
-    new fullpage('#fullpage', {
-        sectionsColor: ['#FFFFFF', '#F2F2F2', '#FFFFFF', '#1B1B1B'],
-        anchors: ['section1', 'section2', 'section3', 'section4'],
-        autoScrolling: true,
-        scrollBar: false,
-        navigation: false,
-        navigationPosition: 'right',
-        scrollingSpeed: 700,
-    });
-</script>
+<script src="/javascript.js"></script>
+<script src="/darkmode.js"></script>

@@ -1,8 +1,4 @@
-<p align="center">
-  <a href="" rel="noopener">
-    <img width="600px" src="https://www.gruettecloud.com/static/renders/routeplanner/MacBookProRouteWithBackground.png" style="border-radius: 20px;" alt="FMI Maps">
-  </a>
-</p>
+<img src="https://jan.gruettefien.com/fmi_maps.png" alt="FMI Maps">
 <br>
 
 <h1 align="center">FMI Maps</h1>
@@ -10,7 +6,7 @@
 <p align="center">
 FMI Maps, a University of Stuttgart course project, leverages Javalin, a Java web framework, to serve both the frontend and API endpoints.
 A custom Dijkstra algorithm implementation handles route calculation, with data provided by the University of Stuttgart's <a href="https://fmi.uni-stuttgart.de/alg/research/stuff/">Institute for Formal Methods in Computer Science</a>. The graph for the Germany road network contains around 25 million nodes and 50 million edges.
-Routes are visualized using GeoJSON and the Leaflet JavaScript library.
+Routes are visualized using MAPBOX GL JS. When a route is calculated, the frontend displays the route on the map as a blue line using GeoJSON. The Route can then be viewed in 3D.
 </p>
 
 ## ✨ Features <a name = "features"></a>
@@ -37,20 +33,11 @@ Routes are visualized using GeoJSON and the Leaflet JavaScript library.
   - Please use the Method `shortestPath(int start, int end)` with the arguments `<YOUR_START_NODE_ID>` and `-1` within the `Dijkstra` class. The `-1` will make sure that the algorithm will calculate the shortest path to all other nodes without stopping early.
   - Now you can use the `getAllRouteTo(int EndNode)` method to get the shortest path from the start node to any point you desire with the distances and predecessors you just calculated.
 
-- <u>Dark Mode</u>
-  - Most importantly, we added a hacky looking dark mode to the website.
-  - You can toggle the dark mode by clicking on the moon icon in the upper right corner.
-  - The map is still loading the tiles normally from OpenStreetMap. However we are using a custom stylesheet to edit the colors using a filter which is layered on top of the map.
+## 📷 Stuttgart <a name = "images"></a>
 
-## 📷 Images <a name = "images"></a>
 
-<div align="center">
-    <img width="49%" src="https://www.gruettecloud.com/static/renders/routeplanner/StudioDisplayMisc.png" style="border-radius: 20px;" alt="FMI Maps">
-    <img width="49%" src="https://www.gruettecloud.com/static/renders/routeplanner/iMacSearch.png" style="border-radius: 20px;" alt="FMI Maps">
-</div>
-<div align="center">
-    <img width="70%" src="https://www.gruettecloud.com/static/renders/routeplanner/MacBookProRouteDark.png" style="border-radius: 20px;" alt="FMI Maps">
-</div>
+<img src="https://jan.gruettefien.com/fmi_maps_stuttgart.png" style="border-radius: 20px;" alt="Stuttgart, just because the screenshots looks so good :)">
+
 
 ## 🔧 Configuration <a name = "configuration"></a>
 To execute the project as required by the course, you need to do the following:
@@ -62,7 +49,8 @@ To execute the project as required by the course, you need to do the following:
 - cd into the project directory.
 - Run `mvn compile`.
 - Run the benchmark with `mvn exec:java -Dexec.mainClass="com.gruettecloud.www.Benchmark" -Dexec.args="-graph germany.fmi -lon 9.098 -lat 48.746 -que germany.que -s 638394"`.
-- If you'd like to use the GUI, run `mvn exec:java -Dexec.mainClass="com.gruettecloud.www.App"`. The web app will be available at http://localhost:7070/.
+- If you'd like to use the GUI, obtain a Mapbox API key and place it in the `src/main/java/public/javascripts.js` file.
+- Finally, run `mvn exec:java -Dexec.mainClass="com.gruettecloud.www.App"`. The web app will be available at http://localhost:7070/.
 
 ## ✍️ Authors <a name = "authors"></a>
 - [@Xiwen](https://github.com/Xiwen728)
