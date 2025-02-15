@@ -13,16 +13,11 @@ document.getElementById("start-input").addEventListener("focus", () => {
 document.getElementById("destination-input").addEventListener("focus", () => {
   inputSelected = "destination";
 });
-  /*container: 'map',
-  center: [9.183, 48.783],
-  zoom: 16,
-  //style: 'mapbox://styles/xelemir04/cm6dspoof005601qr3aq9g3d9'
-  style: 'mapbox://styles/mapbox/standard',*/
+
 const map = new mapboxgl.Map({
   container: 'map',
   center: [9.183, 48.783],
   zoom: 16,
-  //style: 'mapbox://styles/xelemir04/cm6dspoof005601qr3aq9g3d9'
   style: 'mapbox://styles/mapbox/standard',
 
 });
