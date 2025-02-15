@@ -13,15 +13,22 @@ document.getElementById("start-input").addEventListener("focus", () => {
 document.getElementById("destination-input").addEventListener("focus", () => {
   inputSelected = "destination";
 });
-
+  /*container: 'map',
+  center: [9.183, 48.783],
+  zoom: 16,
+  //style: 'mapbox://styles/xelemir04/cm6dspoof005601qr3aq9g3d9'
+  style: 'mapbox://styles/mapbox/standard',*/
 const map = new mapboxgl.Map({
   container: 'map',
   center: [9.183, 48.783],
   zoom: 16,
-  style: 'mapbox://styles/xelemir04/cm6dspoof005601qr3aq9g3d9'
+  //style: 'mapbox://styles/xelemir04/cm6dspoof005601qr3aq9g3d9'
+  style: 'mapbox://styles/mapbox/standard',
+
 });
 
 map.on('style.load', () => {
+  
   map.addSource('mapbox-dem', {
     type: 'raster-dem',
     url: 'mapbox://mapbox.mapbox-terrain-dem-v1',
@@ -29,6 +36,11 @@ map.on('style.load', () => {
     maxzoom: 14
   });
   map.setTerrain({ source: 'mapbox-dem', exaggeration: 1 });
+  map.addImport({
+    id: 'hd-roads',
+    url: 'mapbox://styles/mapbox/high-definition-roads',
+  });
+  
 });
 
 function setMarker(lat, lng, role) {
@@ -288,14 +300,14 @@ function calculateRoute() {
           id: 'route-line-border',
           type: 'line',
           source: 'route',
-          layout: { 'line-join': 'round', 'line-cap': 'round' },
-          paint: { 'line-color': '#007AFF', 'line-width': 14, 'line-opacity': 1 }
+          layout: { 'line-join': 'round', 'line-cap': 'round', 'line-z-offset': 1 },
+          paint: { 'line-color': '#007AFF', 'line-width': 14, 'line-opacity': 1}
         });
         map.addLayer({
           id: 'route-line-inner',
           type: 'line',
           source: 'route',
-          layout: { 'line-join': 'round', 'line-cap': 'round' },
+          layout: { 'line-join': 'round', 'line-cap': 'round', 'line-z-offset': 1 },
           paint: { 'line-color': '#009AFF', 'line-width': 8, 'line-opacity': 1 }
         });
 

@@ -1,4 +1,4 @@
-mapboxgl.accessToken = '<MAPBOX_ACCESS_TOKEN>';
+mapboxgl.accessToken = 'pk.eyJ1IjoieGVsZW1pcjA0IiwiYSI6ImNtNmRqODEyMzBvcmEya3M3a293MXF6NmkifQ.wsXs00S97xvNQ2OwbPG2QA';
 
 let start = [null, null, null];
 let destination = [null, null, null];
