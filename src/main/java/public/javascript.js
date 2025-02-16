@@ -1,4 +1,4 @@
-mapboxgl.accessToken = 'pk.eyJ1IjoieGVsZW1pcjA0IiwiYSI6ImNtNmRqODEyMzBvcmEya3M3a293MXF6NmkifQ.wsXs00S97xvNQ2OwbPG2QA';
+mapboxgl.accessToken = '<MAPBOX_ACCESS_TOKEN>';
 
 let start = [null, null, null];
 let destination = [null, null, null];
@@ -18,10 +18,12 @@ const map = new mapboxgl.Map({
   container: 'map',
   center: [9.183, 48.783],
   zoom: 16,
-  style: 'mapbox://styles/xelemir04/cm6dspoof005601qr3aq9g3d9'
+  style: 'mapbox://styles/mapbox/standard',
+
 });
 
 map.on('style.load', () => {
+  
   map.addSource('mapbox-dem', {
     type: 'raster-dem',
     url: 'mapbox://mapbox.mapbox-terrain-dem-v1',
@@ -29,6 +31,11 @@ map.on('style.load', () => {
     maxzoom: 14
   });
   map.setTerrain({ source: 'mapbox-dem', exaggeration: 1 });
+  map.addImport({
+    id: 'hd-roads',
+    url: 'mapbox://styles/mapbox/high-definition-roads',
+  });
+  
 });
 
 function setMarker(lat, lng, role) {

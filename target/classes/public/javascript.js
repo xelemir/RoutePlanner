@@ -295,14 +295,14 @@ function calculateRoute() {
           id: 'route-line-border',
           type: 'line',
           source: 'route',
-          layout: { 'line-join': 'round', 'line-cap': 'round', 'line-z-offset': 1 },
-          paint: { 'line-color': '#007AFF', 'line-width': 14, 'line-opacity': 1}
+          layout: { 'line-join': 'round', 'line-cap': 'round' },
+          paint: { 'line-color': '#007AFF', 'line-width': 14, 'line-opacity': 1 }
         });
         map.addLayer({
           id: 'route-line-inner',
           type: 'line',
           source: 'route',
-          layout: { 'line-join': 'round', 'line-cap': 'round', 'line-z-offset': 1 },
+          layout: { 'line-join': 'round', 'line-cap': 'round' },
           paint: { 'line-color': '#009AFF', 'line-width': 8, 'line-opacity': 1 }
         });
 
